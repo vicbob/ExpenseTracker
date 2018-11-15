@@ -8,11 +8,22 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+  <h3>Hello {{userDetails.username}}!!</h3>
 
   <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
+    What will you like to do?
   </p>
-
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+<br>
+  <ion-card (click)="openPage('e')">
+    <ion-card-content>
+      Go to Expenses
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-card (click)="openPage('c')"> 
+    <ion-card-content>
+      View Categories
+    </ion-card-content>
+  </ion-card>
+  
 </ion-content>
