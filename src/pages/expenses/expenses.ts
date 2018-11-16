@@ -23,6 +23,7 @@ export class ExpensesPage {
   groupKeys:string[] = [];
   arrangedFilteredExpense= new Map();
   monthDays = [31,28,31,30,31,30,31,31,30,31,30,31]
+  naira = String.fromCharCode(8358);
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private storage: Storage, private loadingCtrl: LoadingController) {
@@ -30,6 +31,7 @@ export class ExpensesPage {
 
 
   async ionViewDidLoad() {
+    console.log("Symbol is ",this.naira);
     console.log('ionViewDidLoad ExpensesPage');
     const loader = this.loadingCtrl.create({
       content: "Please wait. Loading...."

@@ -24,9 +24,9 @@
           <ion-avatar item-start>
             <ion-icon name="pricetag"></ion-icon>
           </ion-avatar>
-          <h2>{{expense.name}}</h2>
-          <h3>Price: {{expense.price}}</h3>
-          <p>Category: {{expense.category || "Uncategorized"}}</p>
+          <h2>{{expense.name | titlecase}}</h2>
+          <h3>Price: {{naira + expense.price}}</h3>
+          <p>Category: {{expense.category || "Uncategorized" | titlecase}}</p>
         </ion-item>
       </ion-list>
     </div>
