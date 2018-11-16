@@ -26,7 +26,7 @@
           </ion-avatar>
           <h2>{{expense.name}}</h2>
           <h3>Price: {{expense.price}}</h3>
-          <p>Category: {{expense.category}}</p>
+          <p>Category: {{expense.category || "Uncategorized"}}</p>
         </ion-item>
       </ion-list>
     </div>

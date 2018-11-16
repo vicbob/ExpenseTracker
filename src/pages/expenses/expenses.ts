@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, DateTime } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import * as moment from "moment"
 
 /**
  * Generated class for the ExpensesPage page.
@@ -45,21 +46,25 @@ export class ExpensesPage {
 
   getClassifications(){
     this.filteredExpense.forEach(expense => {
-      this.dayGroups.add(expense.date);
+      this.dayGroups.add(expense.date.toISOString());
     });
+    console.log("Day groups is ",this.dayGroups)
   }
 
   classify(){
     this.dayGroups.forEach(element => {
       let d = new Date(element);
-      let key:string = element;
-      if (d.getDay()===new Date().getDay()){key = "today"}
-      else if((d.getDay()+1)%(this.monthDays[d.getMonth()])===new Date().getDay()){
-        key = "yesterday";
+      let key:string = moment(element,"YYYY-MM-DD").format("DD MMM YYYY");
+
+      if ((d.getDay()===new Date().getDay())&&
+      d.getMonth()===new Date().getMonth()){key = "Today"}
+      else if(((d.getDay()+1)%(this.monthDays[d.getMonth()])===new Date().getDay())
+      && d.getMonth() === new Date().getMonth()){
+        key = "Yesterday";
       }
       this.groupKeys.push(key);
       this.arrangedFilteredExpense.set(key,
-        this.filteredExpense.filter(expense=> expense.date==element))
+        this.filteredExpense.filter(expense=> expense.date.toISOString()===element))
     });
     console.log(this.arrangedFilteredExpense);
     console.log(this.arrangedFilteredExpense.keys.length);
@@ -70,9 +75,8 @@ export class ExpensesPage {
     switch (num) {
       case 0: this.filteredExpense = this.expenses.filter(expense => {
         let d = new Date();
-        let expense_date = new Date(expense.date);
 
-        if (expense_date.getMonth() === d.getMonth() && expense_date.getFullYear()
+        if (expense.date.getMonth() === d.getMonth() && expense.date.getFullYear()
           === d.getFullYear()) {
           return expense
         }
@@ -82,10 +86,9 @@ export class ExpensesPage {
 
       case 1: this.filteredExpense = this.expenses.filter(expense => {
         let d = new Date();
-        let expense_date = new Date(expense.date);
-        let yearDifference = d.getFullYear() - expense_date.getFullYear();
+        let yearDifference = d.getFullYear() - expense.date.getFullYear();
 
-        if ((expense_date.getMonth() + 1) % 12 === d.getMonth()
+        if ((expense.date.getMonth() + 1) % 12 === d.getMonth()
           && yearDifference < 2) {
           return expense
         }
@@ -96,10 +99,9 @@ export class ExpensesPage {
       case 2:
         this.filteredExpense = this.expenses.filter(expense => {
           let d = new Date();
-          let expense_date = new Date(expense.date);
-          let yearDifference = d.getFullYear() - expense_date.getFullYear();
+          let yearDifference = d.getFullYear() - expense.date.getFullYear();
 
-          if ((expense_date.getMonth() + 2) % 12 === d.getMonth()
+          if ((expense.date.getMonth() + 2) % 12 === d.getMonth()
             && yearDifference < 2) {
             return expense
           }
@@ -109,16 +111,15 @@ export class ExpensesPage {
 
       case 3: this.filteredExpense = this.expenses.filter(expense => {
         let d = new Date();
-        let expense_date = new Date(expense.date);
-        let monthDifference = d.getMonth() - expense_date.getMonth()
-        let yearDifference = d.getFullYear() - expense_date.getFullYear();
+        let monthDifference = d.getMonth() - expense.date.getMonth()
+        let yearDifference = d.getFullYear() - expense.date.getFullYear();
 
         //This month logic
-        if (!((expense_date.getMonth() === d.getMonth() && expense_date.getFullYear()
+        if (!((expense.date.getMonth() === d.getMonth() && expense.date.getFullYear()
           === d.getFullYear())
-          || ((expense_date.getMonth() + 1) % 12 === d.getMonth()
+          || ((expense.date.getMonth() + 1) % 12 === d.getMonth()
             && yearDifference < 2)
-          || ((expense_date.getMonth() + 2) % 12 === d.getMonth()
+          || ((expense.date.getMonth() + 2) % 12 === d.getMonth()
             && yearDifference < 2))) {
           return expense
         }
