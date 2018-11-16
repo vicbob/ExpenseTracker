@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ExpensesPage } from '../expenses/expenses';
 
 /**
  * Generated class for the ExpenseGroupsPage page.
@@ -22,4 +23,8 @@ export class ExpenseGroupsPage {
     console.log('ionViewDidLoad ExpenseGroupsPage');
   }
 
-}
+  openPage(num:number,title:string){
+      this.navCtrl.push(ExpensesPage,{'case':num,'title':title});
+    }
+  }
+

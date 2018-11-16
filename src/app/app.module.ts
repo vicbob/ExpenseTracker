@@ -4,7 +4,6 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -16,15 +15,16 @@ import { IonicStorageModule } from '@ionic/storage';
 import { UserActionsProvider } from '../providers/user-actions/user-actions';
 import { ExpenseGroupsPage } from '../pages/expense-groups/expense-groups';
 import { CategoryGroupsPage } from '../pages/category-groups/category-groups';
+import { ExpensesPage } from '../pages/expenses/expenses';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
     LoginPage,
     ExpenseGroupsPage,
-    CategoryGroupsPage
+    CategoryGroupsPage,
+    ExpensesPage
   ],
   imports: [
     BrowserModule,
@@ -36,10 +36,10 @@ import { CategoryGroupsPage } from '../pages/category-groups/category-groups';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
     LoginPage,
     ExpenseGroupsPage,
-    CategoryGroupsPage
+    CategoryGroupsPage,
+    ExpensesPage
   ],
   providers: [
     StatusBar,

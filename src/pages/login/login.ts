@@ -47,9 +47,16 @@ export class LoginPage {
     })
     .catch(error=>{
       loader.dismiss();
+      let subTitle;
+      if(error.error.description === undefined){
+        subTitle = "Connection error. Check your internet connection"
+      }
+      else{
+        subTitle = error.error.description + ". Check your username and password"
+      }
       const alert = this.alertCtrl.create({
         title: "Error",
-        subTitle: error.error.description + ". Check your username and password",
+        subTitle: subTitle,
         buttons: ['OK']
       });
       alert.present();
