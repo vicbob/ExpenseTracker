@@ -14,19 +14,25 @@
 
 
 <ion-content padding>
-  <div>
-    <ion-list>
-      <ion-list-header>
-        Header
-      </ion-list-header>
-      <ion-item>
-        <ion-avatar item-start>
-          <ion-icon name = "pricetag"></ion-icon>
-        </ion-avatar>
-        <h2>Finn</h2>
-        <h3>Don't Know What To Do!</h3>
-        <p>I've had a pretty messed up day. If we just...</p>
-      </ion-item>
-    </ion-list>
+  <div *ngIf="filteredExpense.length">
+    <div *ngFor="let key of groupKeys">
+      <ion-list>
+        <ion-list-header>
+          {{key}}
+        </ion-list-header>
+        <ion-item *ngFor="let expense of arrangedFilteredExpense.get(key)">
+          <ion-avatar item-start>
+            <ion-icon name="pricetag"></ion-icon>
+          </ion-avatar>
+          <h2>{{expense.name}}</h2>
+          <h3>Price: {{expense.price}}</h3>
+          <p>Category: {{expense.category}}</p>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+
+  <div *ngIf="!filteredExpense.length">
+    No expenses were recorded during this period
   </div>
 </ion-content>

@@ -17,8 +17,9 @@ import { Storage } from '@ionic/storage';
 export class ExpensesPage {
   title: string;
   expenses: any[]
-  filteredExpense: any;
+  filteredExpense: any = [];
   dayGroups = new Set();
+  groupKeys:string[] = [];
   arrangedFilteredExpense= new Map();
   monthDays = [31,28,31,30,31,30,31,31,30,31,30,31]
 
@@ -56,10 +57,12 @@ export class ExpensesPage {
       else if((d.getDay()+1)%(this.monthDays[d.getMonth()])===new Date().getDay()){
         key = "yesterday";
       }
+      this.groupKeys.push(key);
       this.arrangedFilteredExpense.set(key,
-        this.filteredExpense.filter(expense=> expense.day==element))
+        this.filteredExpense.filter(expense=> expense.date==element))
     });
     console.log(this.arrangedFilteredExpense);
+    console.log(this.arrangedFilteredExpense.keys.length);
   }
 
 
