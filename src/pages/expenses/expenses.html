@@ -20,7 +20,8 @@
         <ion-list-header>
           {{key}}
         </ion-list-header>
-        <ion-item *ngFor="let expense of arrangedFilteredExpense.get(key)">
+        <ion-item *ngFor="let expense of arrangedFilteredExpense.get(key)"
+        (click)="options(expense)">
           <ion-avatar item-start>
             <ion-icon name="pricetag"></ion-icon>
           </ion-avatar>
