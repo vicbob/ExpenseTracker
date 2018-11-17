@@ -28,26 +28,6 @@ export class HomePage {
       this.loader.dismiss();
   }
 
-
-  // getUserDetails(){
-  //   this.userActions.getUserDetails()
-  //   .then(resp=>{
-  //       console.log(resp);
-  //       this.userDetails=resp;
-  //       this.storage.set("user_details",this.userDetails);
-  //       this.loader.dismiss();
-  //   }).catch(error=>{
-  //     this.loader.dismiss()
-  //     console.log("Error is ",error)
-  //     const alert = this.alertCtrl.create({
-  //       title: "Error",
-  //       subTitle: error.error.error,
-  //       buttons: ['OK']
-  //     })
-  //     alert.present();
-  //   })
-  // }
-
   openPage(char:string){
     switch(char){
       case 'c': this.navCtrl.push(CategoryGroupsPage); break;
