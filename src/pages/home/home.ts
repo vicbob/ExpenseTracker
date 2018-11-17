@@ -21,42 +21,32 @@ export class HomePage {
     private alertCtrl:AlertController, private constants:AppConstantsProvider) {
 
   }
-  ionViewDidLoad(){
-      this.loader.present()
-      this.getUserDetails()
-  }
-
-  arrangeUserDetails(){
-    let expenses = this.userDetails.expenses
-    expenses.forEach(expense => {
-      expense.date = new Date(expense.date);
-    });
-    this.constants.quickSortExpenses(expenses,0,expenses.length-1);
-    expenses.reverse();
-    this.userDetails.expenses = expenses;
+  async ionViewDidLoad(){
+      await this.userActions.getDetails("Fetching details....");
+      this.loader.present();
+      this.userDetails = await this.storage.get('user_details');
+      this.loader.dismiss();
   }
 
 
-  getUserDetails(){
-    this.userActions.getUserDetails()
-    .then(resp=>{
-        console.log(resp);
-        this.userDetails=resp;
-        this.arrangeUserDetails();
-        this.storage.set("user_details",this.userDetails);
-        console.log("Sorted stuff is ",this.userDetails)
-        this.loader.dismiss();
-    }).catch(error=>{
-      this.loader.dismiss()
-      console.log("Error is ",error)
-      const alert = this.alertCtrl.create({
-        title: "Error",
-        subTitle: error.error.error,
-        buttons: ['OK']
-      })
-      alert.present();
-    })
-  }
+  // getUserDetails(){
+  //   this.userActions.getUserDetails()
+  //   .then(resp=>{
+  //       console.log(resp);
+  //       this.userDetails=resp;
+  //       this.storage.set("user_details",this.userDetails);
+  //       this.loader.dismiss();
+  //   }).catch(error=>{
+  //     this.loader.dismiss()
+  //     console.log("Error is ",error)
+  //     const alert = this.alertCtrl.create({
+  //       title: "Error",
+  //       subTitle: error.error.error,
+  //       buttons: ['OK']
+  //     })
+  //     alert.present();
+  //   })
+  // }
 
   openPage(char:string){
     switch(char){
