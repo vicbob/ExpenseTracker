@@ -16,7 +16,6 @@ import { UserActionsProvider } from '../providers/user-actions/user-actions';
 import { ExpenseGroupsPage } from '../pages/expense-groups/expense-groups';
 import { CategoryGroupsPage } from '../pages/category-groups/category-groups';
 import { ExpensesPage } from '../pages/expenses/expenses';
-import { ExpenseDetailsPage } from '../pages/expense-details/expense-details';
 import { LongPressModule } from 'ionic-long-press';
 
 @NgModule({
@@ -27,7 +26,6 @@ import { LongPressModule } from 'ionic-long-press';
     ExpenseGroupsPage,
     CategoryGroupsPage,
     ExpensesPage,
-    ExpenseDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -44,7 +42,6 @@ import { LongPressModule } from 'ionic-long-press';
     ExpenseGroupsPage,
     CategoryGroupsPage,
     ExpensesPage,
-    ExpenseDetailsPage
   ],
   providers: [
     StatusBar,
