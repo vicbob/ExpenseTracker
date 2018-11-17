@@ -16,6 +16,7 @@ import { UserActionsProvider } from '../providers/user-actions/user-actions';
 import { ExpenseGroupsPage } from '../pages/expense-groups/expense-groups';
 import { CategoryGroupsPage } from '../pages/category-groups/category-groups';
 import { ExpensesPage } from '../pages/expenses/expenses';
+import { ExpenseDetailsPage } from '../pages/expense-details/expense-details';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ExpensesPage } from '../pages/expenses/expenses';
     LoginPage,
     ExpenseGroupsPage,
     CategoryGroupsPage,
-    ExpensesPage
+    ExpensesPage,
+    ExpenseDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -39,7 +41,8 @@ import { ExpensesPage } from '../pages/expenses/expenses';
     LoginPage,
     ExpenseGroupsPage,
     CategoryGroupsPage,
-    ExpensesPage
+    ExpensesPage,
+    ExpenseDetailsPage
   ],
   providers: [
     StatusBar,
