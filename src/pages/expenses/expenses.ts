@@ -37,7 +37,7 @@ export class ExpensesPage {
       content: "Please wait. Loading...."
     })
     loader.present();
-    this.title = this.navParams.get('title')+ "'s expenses";
+    this.title = this.navParams.get('title');
     let data = await this.storage.get('user_details');
     this.expenses = data.expenses;
     this.expenseFilter(this.navParams.get('case'));
@@ -128,6 +128,13 @@ export class ExpensesPage {
       });
         console.log(this.filteredExpense)
         break;
+
+        case 4: this.filteredExpense = this.expenses.filter(
+          expense=>expense.category === this.navParams.get('title')
+        );
+        console.log("Category is ",this.navParams.get('title'));
+        break;
+
 
       default: console.log("Something went impossibly wrong")
         break;
