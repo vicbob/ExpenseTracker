@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AlertController, ToastController, LoadingController } from 'ionic-angular';
+import { UserActionsProvider } from '../user-actions/user-actions';
+import { Storage } from '@ionic/storage';
 
 /*
   Generated class for the AppConstantsProvider provider.
@@ -11,7 +14,47 @@ import { Injectable } from '@angular/core';
 export class AppConstantsProvider {
   BASEURL:string = "http://localhost:5000"
 
-  constructor() {
+  constructor(private alertCtrl:AlertController,
+    private toastCtrl:ToastController,private storage:Storage,
+    private loadingCtrl:LoadingController) {
+  }
+
+  /* This method takes the userDetails object, converts all
+  the expense date strings to dates and sorts the expenses in
+  chronological order.
+  */
+  arrangeUserDetails(userDetails){
+    let expenses = userDetails.expenses
+    expenses.forEach(expense => {
+      expense.date = new Date(expense.date);
+    });
+    this.quickSortExpenses(expenses,0,expenses.length-1);
+    expenses.reverse();
+    userDetails.expenses = expenses;
+    return userDetails;
+  }
+
+  presentAlert(title:string, subTitle:string){
+    const alert = this.alertCtrl.create({
+      title: title,
+      subTitle: subTitle,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+
+  presentToast(message:string,callback) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: 'top'
+    });
+  
+    toast.onDidDismiss(() => {
+      callback;
+    });
+  
+    toast.present();
   }
 
    /* This function takes last element as pivot, 
