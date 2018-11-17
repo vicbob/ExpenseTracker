@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { ExpensesPage } from '../expenses/expenses';
 
 /**
  * Generated class for the CategoryGroupsPage page.
@@ -33,10 +34,14 @@ export class CategoryGroupsPage {
 
   categorize(){
     this.expenses.forEach(expense => {
-      if(expense.category === null) this.categories.add('uncategorized'); 
+      if(expense.category === null) this.categories.add(null); 
        else this.categories.add(expense.category.toLowerCase());
     });
     console.log(this.categories);
+  }
+
+  goToExpenses(category:string){
+    this.navCtrl.push(ExpensesPage,{'case':4,'title':category})
   }
 
 }

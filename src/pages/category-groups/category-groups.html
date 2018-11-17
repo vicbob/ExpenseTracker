@@ -14,27 +14,27 @@
 
 
 <ion-content padding>
-    <div *ngIf="categories.size">
-  <ion-card>
-    <ion-card-header>
-      Categories
-    </ion-card-header>
-  
-    <ion-list >
-      <button ion-item *ngFor="let category of categories">
-        <ion-icon name="folder-open" item-start></ion-icon>
-        {{category}}
-      </button>
-    </ion-list>
-  </ion-card>
-</div>
+  <div *ngIf="categories.size">
+    <ion-card *ngFor="let category of categories">
+      <ion-card-content>
+        <ion-list>
+          <button ion-item (click)="goToExpenses(category)">
+            <ion-icon name="ios-folder-open" item-start></ion-icon>
+            {{category || "Uncategorized" | titlecase}}
+          </button>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
-<div *ngIf="!categories.size">
-  You have no categories
-</div>
+  <div *ngIf="!categories.size">
+    You have no categories
+  </div>
 
-<ion-fab right bottom>
-  <button ion-fab color="light"><ion-icon name="add"></ion-icon></button>
-</ion-fab>
+  <ion-fab right bottom>
+    <button ion-fab color="light">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
 
 </ion-content>
