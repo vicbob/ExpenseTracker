@@ -17,31 +17,31 @@ export class MyApp {
 
   rootPage: any = LoginPage;
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{ title: string, component: any }>;
 
-  public username:string = "username";
-  public email:string = "email@mail.com"
+  public username: string = "username";
+  public email: string = "email@mail.com"
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
-    private storage:Storage) {
+    private storage: Storage) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },
-      { title: "Expenses", component:ExpenseGroupsPage},
-      { title: 'Categories', component: CategoryGroupsPage}
+      { title: "Expenses", component: ExpenseGroupsPage },
+      { title: 'Categories', component: CategoryGroupsPage }
     ];
 
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {
+    this.platform.ready().then(async () => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.getUser();
+      await this.getUser();
     });
   }
 
@@ -51,17 +51,22 @@ export class MyApp {
     this.nav.setRoot(page.component);
   }
 
-  logout(){
+  logout() {
 
   }
 
-  async getUser(){
-    let data = await this.storage.get("user_details")
-    this.username = data.username;
-    this.email = data.email;
+  async getUser(): Promise<any> {
+    try {
+      let data = await this.storage.get("user_details");
+      this.username = data.username;
+      this.email = data.email;
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 
-  updatePassword(){
+  updatePassword() {
 
   }
 }
