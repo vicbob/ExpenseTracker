@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, DateTime } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, DateTime, ActionSheetController, AlertController, ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import * as moment from "moment"
+import { TitleCasePipe } from '@angular/common';
+import { UserActionsProvider } from '../../providers/user-actions/user-actions';
+import { AppConstantsProvider } from '../../providers/app-constants/app-constants';
 
 /**
  * Generated class for the ExpensesPage page.
@@ -26,7 +29,9 @@ export class ExpensesPage {
   naira = String.fromCharCode(8358);
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private storage: Storage, private loadingCtrl: LoadingController) {
+    private storage: Storage, private loadingCtrl: LoadingController,
+    private actionSheetCtrl:ActionSheetController, private alertCtrl:AlertController,
+    private userActions:UserActionsProvider, private constants:AppConstantsProvider) {
   }
 
 
@@ -46,11 +51,11 @@ export class ExpensesPage {
     loader.dismiss();
   }
 
-  getClassifications(){
-    this.filteredExpense.forEach(expense => {
-      this.dayGroups.add(expense.date.toISOString());
-    });
-    console.log("Day groups is ",this.dayGroups)
+  async afterDeleteCallback(){
+    await this.userActions.getDetails("Refreshing. Please wait....");
+    this.navCtrl.pop();
+    console.log("Nav params data is ", this.navParams.data);
+    this.navCtrl.push(ExpensesPage,this.navParams.data);
   }
 
   classify(){
@@ -72,6 +77,16 @@ export class ExpensesPage {
     console.log(this.arrangedFilteredExpense.keys.length);
   }
 
+   async deleteExpense(expense:any){
+     try{
+    let resp:any = await this.userActions.deleteExpense(expense);
+    this.constants.presentToast(resp.message,
+      this.afterDeleteCallback());
+     }catch(error){
+       console.log("The deletion error is ",error)
+      this.constants.presentAlert("Error",error.message);
+     }
+  }
 
   expenseFilter(num: number) {
     switch (num) {
@@ -140,4 +155,73 @@ export class ExpensesPage {
         break;
     }
   }
+
+  
+  getClassifications(){
+    this.filteredExpense.forEach(expense => {
+      this.dayGroups.add(expense.date.toISOString());
+    });
+    console.log("Day groups is ",this.dayGroups)
+  }
+
+  options(expense:any){
+    console.log("I was clicked on ",expense);
+    let cssClass:string = "disabled";
+    let d = new Date();
+    if(expense.date.getMonth()===d.getMonth() && 
+    expense.date.getFullYear()=== d.getFullYear()){
+      cssClass = "none"
+    }
+    this.presentActionSheet(expense,cssClass);
+  }
+
+  presentActionSheet(expense:any,cssClass:string) {
+    const actionSheet = this.actionSheetCtrl.create({
+      title: new TitleCasePipe().transform(expense.name),
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'destructive',
+          icon:  'trash',
+          cssClass: cssClass,
+          handler: () => {
+            this.presentDeleteAlert(expense);
+          }
+        },{
+          text: 'Edit',
+          role: 'destructive',
+          icon: 'create',
+          cssClass: cssClass,
+          handler: () => {
+            console.log('Edit clicked');
+          }
+        },{
+          text: 'Cancel',
+          role: 'cancel',
+          icon: 'close',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
+  presentDeleteAlert(expense){
+    const alert = this.alertCtrl.create({
+      title: "Delete?",
+      subTitle: "Are you sure you want to delete this expense?",
+      buttons: [{
+        text: "NO"
+      },
+      {
+        text: "YES",
+        handler: ()=>{
+          this.deleteExpense(expense)}
+      }]
+    });
+    alert.present();
+  }
+
 }
