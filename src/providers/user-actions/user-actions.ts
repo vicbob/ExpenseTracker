@@ -2,7 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { AppConstantsProvider } from '../app-constants/app-constants';
-
+import { LoadingController } from 'ionic-angular';
+import * as moment from "moment";
 /*
   Generated class for the UserActionsProvider provider.
 
@@ -15,21 +16,62 @@ export class UserActionsProvider {
   headersIsSet: boolean = false;
 
   constructor(public http: HttpClient, private storage: Storage,
-    private constants: AppConstantsProvider) {
+    private constants: AppConstantsProvider,
+    private loadingCtrl:LoadingController) {
   }
 
+  deleteExpense(expense):Promise<any>{
+    this.setHeadersIfNotSet();
+    return new Promise((resolve,reject)=>{
+      let d =  moment(expense.date);
+      let body = {"name":expense.name,"date":d.format("YYYY-MM-DD")}
+      let options = {headers:this.headers,
+      body:body}
+      this.http.delete(this.constants.BASEURL+'/user/expense',options).toPromise()
+      .then(resp=>{
+        resolve(resp);
+      })
+      .catch(error=>{
+        reject(error);
+      })
+    })  
+  }
+
+  async getDetails(loaderMessage:string){
+    const loader = this.loadingCtrl.create({
+      content: loaderMessage
+    });
+    loader.present();
+    try{
+       let resp = await this.getUserDetails();  
+       this.storage.set("user_details",resp);
+       loader.dismiss();
+    }
+    catch(error){
+      loader.dismiss();
+      this.constants.presentAlert("Error",error.error.error);
+    }
+}
+
+  /* Will return user details object with chronologically 
+  sorted expenses.
+  */
   async getUserDetails(): Promise<any> {
-    if (!this.headersIsSet)await this.setHeaders(); this.headersIsSet=true;
-     console.log("Headers here ",this.headers);
+    await this.setHeadersIfNotSet();
     return new Promise((resolve, reject) => {
       this.http.get(this.constants.BASEURL + '/user',{headers:this.headers}).toPromise()
         .then(resp => {
+          resp = this.constants.arrangeUserDetails(resp);
           resolve(resp);
         })
         .catch(error => {
           reject(error);
         })
     })
+  }
+
+  async setHeadersIfNotSet(){
+    if (!this.headersIsSet)await this.setHeaders(); this.headersIsSet=true;
   }
 
   async setHeaders(){
