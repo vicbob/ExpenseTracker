@@ -17,6 +17,7 @@ import { ExpenseGroupsPage } from '../pages/expense-groups/expense-groups';
 import { CategoryGroupsPage } from '../pages/category-groups/category-groups';
 import { ExpensesPage } from '../pages/expenses/expenses';
 import { ExpenseDetailsPage } from '../pages/expense-details/expense-details';
+import { LongPressModule } from 'ionic-long-press';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ExpenseDetailsPage } from '../pages/expense-details/expense-details';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    LongPressModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
