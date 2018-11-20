@@ -51,7 +51,7 @@ export class ExpensesPage {
     loader.dismiss();
   }
 
-  async afterDeleteCallback(){
+  async afterActionCallback(){
     await this.userActions.getDetails("Refreshing. Please wait....");
     this.navCtrl.pop();
     console.log("Nav params data is ", this.navParams.data);
@@ -81,12 +81,23 @@ export class ExpensesPage {
      try{
     let resp:any = await this.userActions.deleteExpense(expense);
     this.constants.presentToast(resp.message,
-      this.afterDeleteCallback());
+      this.afterActionCallback());
      }catch(error){
        console.log("The deletion error is ",error)
       this.constants.presentAlert("Error",error.message);
      }
   }
+
+  async editExpense(expense:any,price:number,category:string){
+    try{
+   let resp:any = await this.userActions.editExpense(expense,price,category);
+   this.constants.presentToast(resp.message,
+     this.afterActionCallback());
+    }catch(error){
+      console.log("The edit error is ",error)
+     this.constants.presentAlert("Error",error.message);
+    }
+ }
 
   expenseFilter(num: number) {
     switch (num) {
@@ -259,6 +270,11 @@ export class ExpensesPage {
               this.constants.presentAlert("Error","Invalid field");
               return false;
             }
+            try{
+            this.editExpense(expense,data.price,data.category);
+          }catch(error){
+            console.log("Error when calling edit function is ",error);
+          }
           }
         }
       ]

@@ -37,6 +37,24 @@ export class UserActionsProvider {
     })  
   }
 
+  editExpense(expense,price:number,category:string):Promise<any>{
+    this.setHeadersIfNotSet();
+    return new Promise((resolve,reject)=>{
+      let d =  moment(expense.date);
+      let body = {"name":expense.name,"date":d.format("YYYY-MM-DD"),
+      "price":price,"category":category};
+      // let options = {headers:this.headers,
+      // body:body}
+      this.http.put(this.constants.BASEURL+'/user/expense',body,{headers:this.headers}).toPromise()
+      .then(resp=>{
+        resolve(resp);
+      })
+      .catch(error=>{
+        reject(error);
+      })
+    })  
+  }
+
   async getDetails(loaderMessage:string){
     const loader = this.loadingCtrl.create({
       content: loaderMessage
