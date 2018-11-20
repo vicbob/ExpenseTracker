@@ -263,7 +263,7 @@ export class ExpensesPage {
           handler: data => {
             var format = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
             let bool:boolean = data.category.match(format)?true:false;
-            bool = bool || data.category==""?true:false;
+            bool = bool || data.category.trim()==""?true:false;
             let bool2:boolean = data.price < 5? true:false;
             bool2 = bool2 || data.price.trim() ==""? true:false
             if(bool || bool2){
@@ -271,7 +271,7 @@ export class ExpensesPage {
               return false;
             }
             try{
-            this.editExpense(expense,data.price,data.category);
+            this.editExpense(expense,data.price,data.category.trim());
           }catch(error){
             console.log("Error when calling edit function is ",error);
           }
