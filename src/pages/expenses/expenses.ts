@@ -193,7 +193,7 @@ export class ExpensesPage {
           icon: 'create',
           cssClass: cssClass,
           handler: () => {
-            console.log('Edit clicked');
+            this.presentEditAlert(expense);
           }
         },{
           text: 'Cancel',
@@ -222,6 +222,48 @@ export class ExpensesPage {
       }]
     });
     alert.present();
+  }
+
+  presentEditAlert(expense){
+    const prompt = this.alertCtrl.create({
+      title: 'Edit '+expense.name,
+      message: "Enter the price and category for edit",
+      inputs: [
+        {
+          name: "price",
+          placeholder: expense.price,
+          type: "number"
+        },
+        {
+          name: 'category',
+          placeholder: expense.category|| "Uncategorized",
+          type: "text"
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            var format = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+            let bool:boolean = data.category.match(format)?true:false;
+            bool = bool || data.category==""?true:false;
+            let bool2:boolean = data.price < 5? true:false;
+            bool2 = bool2 || data.price.trim() ==""? true:false
+            if(bool || bool2){
+              this.constants.presentAlert("Error","Invalid field");
+              return false;
+            }
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 
 }
