@@ -238,7 +238,7 @@ export class ExpensesPage {
   presentEditAlert(expense){
     const prompt = this.alertCtrl.create({
       title: 'Edit '+expense.name,
-      message: "Enter the price and category for edit",
+      message: "Enter the Price and Category",
       inputs: [
         {
           name: "price",
