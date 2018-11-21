@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { ExpensesPage } from '../expenses/expenses';
-import { AppConstantsProvider } from '../../providers/app-constants/app-constants';
+import { AppConstantsProvider,Expense } from '../../providers/app-constants/app-constants';
+import { UserActionsProvider } from '../../providers/user-actions/user-actions';
 
 /**
  * Generated class for the ExpenseGroupsPage page.
@@ -18,15 +19,28 @@ import { AppConstantsProvider } from '../../providers/app-constants/app-constant
 export class ExpenseGroupsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private alertCtrl: AlertController, private constants:AppConstantsProvider) {
+    private alertCtrl: AlertController, private constants:AppConstantsProvider,
+    private userActions:UserActionsProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ExpenseGroupsPage');
   }
 
-  async addExpense() {
+  async afterActionCallback(){
+    await this.userActions.getDetails("Refreshing. Please wait....");
+    this.openPage(0,"This Month")
+  }
 
+  async addExpense(expense:Expense) {
+    try{
+      let resp:any = await this.userActions.addExpense(expense);
+      this.constants.presentToast(resp.message,
+        this.afterActionCallback());
+       }catch(error){
+         console.log("The Add expense error is ",error)
+        this.constants.presentAlert("Error",error.message);
+       }
   }
 
   openPage(num: number, title: string) {
@@ -49,7 +63,7 @@ export class ExpenseGroupsPage {
         },
         {
           name: 'category',
-          placeholder: "category",
+          placeholder: "[category]",
           type: "text"
         },
       ],
@@ -65,7 +79,7 @@ export class ExpenseGroupsPage {
           handler: data => {
             var format = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
             let bool: boolean = data.category.match(format) ? true : false;
-            bool = bool || data.category.trim() == "" ? true : false;
+            //bool = bool || data.category.trim() == "" ? true : false;
 
             let bool2: boolean = data.price < 5 ? true : false;
             bool2 = bool2 || data.price.trim() == "" ? true : false
@@ -77,11 +91,14 @@ export class ExpenseGroupsPage {
               this.constants.presentAlert("Error", "Invalid field");
               return false;
             }
-            // try {
-            //   this.editExpense(expense, data.price, data.category);
-            // } catch (error) {
-            //   console.log("Error when calling edit function is ", error);
-            // }
+
+            try {
+              let expense = new Expense(data.name.trim(),
+              data.price,data.category.trim())
+              this.addExpense(expense);
+            } catch (error) {
+              console.log("Error when calling add expense function is ", error);
+            }
           }
         }
       ]
