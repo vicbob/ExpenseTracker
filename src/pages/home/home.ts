@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, AlertController } from 'ionic-angular';
+import { NavController, LoadingController, AlertController, MenuController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { UserActionsProvider } from '../../providers/user-actions/user-actions';
 import { CategoryGroupsPage } from '../category-groups/category-groups';
@@ -18,12 +18,14 @@ export class HomePage {
 
   constructor(public navCtrl: NavController,private storage:Storage,
     private userActions:UserActionsProvider,private loadingCtrl:LoadingController,
-    private alertCtrl:AlertController, private constants:AppConstantsProvider) {
+    private alertCtrl:AlertController, private constants:AppConstantsProvider,
+    private menu:MenuController) {
 
   }
   async ionViewDidLoad(){
       await this.userActions.getDetails("Fetching details....");
       this.loader.present();
+      this.menu.enable(true);
       this.userDetails = await this.storage.get('user_details');
       this.loader.dismiss();
   }
