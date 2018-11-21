@@ -20,6 +20,23 @@ export class UserActionsProvider {
     private loadingCtrl:LoadingController) {
   }
 
+  addExpense(expense):Promise<any>{
+    this.setHeadersIfNotSet();
+    let body = {"name":expense.name,"price":expense.price,
+    "category":expense.category}
+    console.log(body);
+    return new Promise((resolve,reject)=>{
+      this.http.post(this.constants.BASEURL+'/user/expense',body
+      ,{headers:this.headers}).toPromise()
+      .then(resp=>{
+        resolve(resp);
+      })
+      .catch(error=>{
+        reject(error);
+      })
+    })  
+  }
+
   deleteExpense(expense):Promise<any>{
     this.setHeadersIfNotSet();
     return new Promise((resolve,reject)=>{
@@ -43,8 +60,7 @@ export class UserActionsProvider {
       let d =  moment(expense.date);
       let body = {"name":expense.name,"date":d.format("YYYY-MM-DD"),
       "price":price,"category":category};
-      // let options = {headers:this.headers,
-      // body:body}
+
       this.http.put(this.constants.BASEURL+'/user/expense',body,{headers:this.headers}).toPromise()
       .then(resp=>{
         resolve(resp);
