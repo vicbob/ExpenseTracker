@@ -1,7 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AlertController, ToastController, LoadingController } from 'ionic-angular';
-import { UserActionsProvider } from '../user-actions/user-actions';
 import { Storage } from '@ionic/storage';
 
 /*
@@ -10,6 +8,19 @@ import { Storage } from '@ionic/storage';
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
+export class Expense{
+  name:string;
+  price:number;
+  category:string;
+
+  constructor(name:string,price:number,category:string){
+    this.name = name;
+    this.price = price;
+    this.category = category;
+  }
+}
+
+
 @Injectable()
 export class AppConstantsProvider {
   BASEURL:string = "http://localhost:5000"
