@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, AlertController, LoadingController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -8,6 +8,8 @@ import { LoginPage } from '../pages/login/login';
 import { Storage } from '@ionic/storage';
 import { ExpenseGroupsPage } from '../pages/expense-groups/expense-groups';
 import { CategoryGroupsPage } from '../pages/category-groups/category-groups';
+import { AppConstantsProvider } from '../providers/app-constants/app-constants';
+import { UserActionsProvider } from '../providers/user-actions/user-actions';
 
 @Component({
   templateUrl: 'app.html'
@@ -23,7 +25,8 @@ export class MyApp {
   public email: string = "email@mail.com"
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
-    private storage: Storage) {
+    private storage: Storage, private alertCtrl: AlertController,
+    private loadingCtrl: LoadingController, private userActions:UserActionsProvider) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -51,8 +54,15 @@ export class MyApp {
     this.nav.setRoot(page.component);
   }
 
-  logout() {
-
+  async logout() {
+    const loader = this.loadingCtrl.create({
+      content: "Logging out...."
+    })
+    loader.present();
+    await this.userActions.logout();
+    await this.nav.popToRoot();
+    await this.nav.setRoot(LoginPage);
+    loader.dismiss();
   }
 
   async getUser(): Promise<any> {
@@ -63,7 +73,25 @@ export class MyApp {
     } catch (error) {
       console.log(error);
     }
+  }
 
+  presentLogoutConfirmationAlert() {
+    const alert = this.alertCtrl.create({
+      title: "Logout?",
+      subTitle: "Are you sure you want to logout?",
+      buttons: [
+        {
+          text: "NO"
+        },
+        {
+          text: "YES",
+          handler: () => {
+            this.logout();
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   updatePassword() {

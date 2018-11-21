@@ -104,6 +104,15 @@ export class UserActionsProvider {
     })
   }
 
+  logout():Promise<any>{
+    return new Promise(async resolve=>{
+      await this.storage.clear();
+      this.headers = this.headers.delete('Authorization');
+      this.headersIsSet = false;
+      resolve(true);
+    })
+  }
+
   async setHeadersIfNotSet(){
     if (!this.headersIsSet)await this.setHeaders(); this.headersIsSet=true;
   }
