@@ -23,20 +23,12 @@ export class AuthProvider {
     });
   }
 
-  login(email:string, password:string):Promise<any>{
+  async login(email:string, password:string):Promise<any>{
     let body = {
       "username":email,
       "password":password
     }
-    return new Promise((resolve,reject)=>{
-      this.http.post(this.constants.BASEURL+'/login',body,{headers:this.headers}).toPromise()
-      .then(resp=>{
-        resolve(resp);
-      }).catch(data=>{
-        reject(data);
-      }
-      )
-    });
+      return await this.http.post(this.constants.BASEURL+'/login',body,{headers:this.headers}).toPromise()
   }
 
   register(username:string,email:string, password:string):Promise<any>{

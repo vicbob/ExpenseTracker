@@ -26,7 +26,7 @@ export class LoginPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider, private alertCtrl: AlertController,
     private storage: Storage, private loadingctrl: LoadingController,
-    public menu:MenuController) {
+    public menu: MenuController) {
   }
 
 
@@ -36,33 +36,33 @@ export class LoginPage {
   }
 
 
-  login() {
+  async login() {
     const loader = this.loadingctrl.create({
       content: "Please wait...."
     })
     loader.present();
-    this.auth.login(this.email, this.password)
-      .then(resp => {
-        this.storage.set('token', resp.access_token);
-        loader.dismiss();
-        this.navCtrl.setRoot(HomePage);
-      })
-      .catch(error => {
-        loader.dismiss();
-        let subTitle;
-        if (error.error.description === undefined) {
-          subTitle = "Connection error. Check your internet connection"
-        }
-        else {
-          subTitle = error.error.description + ". Check your username and password"
-        }
-        const alert = this.alertCtrl.create({
-          title: "Error",
-          subTitle: subTitle,
-          buttons: ['OK']
-        });
-        alert.present();
-      })
+    try {
+      let resp = await this.auth.login(this.email, this.password)
+      this.storage.set('token', resp.access_token);
+      loader.dismiss();
+      this.navCtrl.setRoot(HomePage);
+    }
+    catch (error) {
+      loader.dismiss();
+      let subTitle;
+      if (error.error.description === undefined) {
+        subTitle = "Connection error. Check your internet connection"
+      }
+      else {
+        subTitle = error.error.description + ". Check your username and password"
+      }
+      const alert = this.alertCtrl.create({
+        title: "Error",
+        subTitle: subTitle,
+        buttons: ['OK']
+      });
+      alert.present();
+    }
   }
 
 
