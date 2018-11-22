@@ -84,6 +84,8 @@ export class UserActionsProvider {
     loader.present();
     try {
       let resp = await this.getUserDetails();
+      this.constants.username.next(resp.username);
+      this.constants.email.next(resp.email);
       this.storage.set("user_details", resp);
       loader.dismiss();
     }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AlertController, ToastController, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { BehaviorSubject } from 'rxjs/Rx';
 
 /*
   Generated class for the AppConstantsProvider provider.
@@ -24,6 +25,8 @@ export class Expense{
 @Injectable()
 export class AppConstantsProvider {
   BASEURL:string = "http://localhost:5000"
+  public username = new BehaviorSubject("username");
+  public email = new BehaviorSubject("email");
 
   constructor(private alertCtrl:AlertController,
     private toastCtrl:ToastController,private storage:Storage,

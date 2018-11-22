@@ -26,7 +26,8 @@ export class MyApp {
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
     private storage: Storage, private alertCtrl: AlertController,
-    private loadingCtrl: LoadingController, private userActions:UserActionsProvider) {
+    private loadingCtrl: LoadingController, private userActions:UserActionsProvider,
+    private constants:AppConstantsProvider) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -44,7 +45,15 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      await this.getUser();
+
+      //Get the username and email to be displayed in side menu
+      this.constants.email.subscribe(email=>{
+        this.email = email;
+      });
+
+      this.constants.username.subscribe(username=>{
+        this.username = username;
+      })
     });
   }
 
@@ -65,15 +74,6 @@ export class MyApp {
     loader.dismiss();
   }
 
-  async getUser(): Promise<any> {
-    try {
-      let data = await this.storage.get("user_details");
-      this.username = data.username;
-      this.email = data.email;
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   presentLogoutConfirmationAlert() {
     const alert = this.alertCtrl.create({
