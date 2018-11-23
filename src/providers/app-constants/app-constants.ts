@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AlertController, ToastController, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { BehaviorSubject } from 'rxjs/Rx';
+import { FormControl, Validators } from '@angular/forms';
 
 /*
   Generated class for the AppConstantsProvider provider.
@@ -18,6 +19,21 @@ export class Expense{
     this.name = name;
     this.price = price;
     this.category = category;
+  }
+}
+
+export class UsernameOrEmailValidator {
+  static validUsernameOrEmail(fc: FormControl){
+    let usernamePattern = Validators.pattern('[a-zA-Z]+[0-9]*')
+    let emailPattern = Validators.email;
+    if(fc.value.pattern == usernamePattern){
+      return ({validUsernameOrEmail: true});
+    }
+    if(fc.value.pattern == emailPattern){
+      return ({validUsernameOrEmail: true});
+    } else {
+      return (null);
+    }
   }
 }
 
