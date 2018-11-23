@@ -264,8 +264,10 @@ export class ExpensesPage {
           handler: data => {
 
             var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+            var format2 = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
 
-            let bool: boolean = data.category.match(format) ? true : false;
+
+            let bool: boolean = data.category.match(format2) ? true : false;
             bool = bool || data.category.trim() == "" ? true : false;
             bool = bool || data.category.trim().toLowerCase() == "uncategorized" ? true : false;
 

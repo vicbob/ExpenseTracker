@@ -78,7 +78,8 @@ export class ExpenseGroupsPage {
           text: 'Submit',
           handler: data => {
             var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
-            let bool: boolean = data.category.match(format) ? true : false;
+            var format2 = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+            let bool: boolean = data.category.match(format2) ? true : false;
             bool = bool || data.category.trim().toLowerCase() == "uncategorized" ? true : false;
 
             let bool2: boolean = data.price < 5 ? true : false;
