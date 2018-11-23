@@ -52,13 +52,13 @@
 
     <!-- Login form -->
     <div *ngIf="!registerView && !resetPasswordView">
-      <form class="list-form">
+      <form class="list-form" [formGroup]="loginForm" (ngSubmit)="login()">
         <ion-item>
           <ion-label floating>
             <ion-icon name="mail" item-start class="text-primary"></ion-icon>
             Username or Email
           </ion-label>
-          <ion-input type="email" [(ngModel)]="email" name="email"></ion-input>
+          <ion-input type="email" formControlName="usernameOrEmail" name="email"></ion-input>
         </ion-item>
 
         <ion-item>
@@ -66,18 +66,21 @@
             <ion-icon name="lock" item-start class="text-primary"></ion-icon>
             Password
           </ion-label>
-          <ion-input type="password" [(ngModel)]="password" name="password"></ion-input>
+          <ion-input type="password" formControlName="password" name="password"></ion-input>
         </ion-item>
-      </form>
 
+        
       <p text-right ion-text color="secondary" tappable (click)="toggleResetPasswordView()"><strong>Forgot Password?</strong></p>
 
       <div>
-        <button ion-button icon-start block color="dark" tappable (click)="login()">
+        <button ion-button icon-start block color="dark" tappable 
+        type="submit">
           <ion-icon name="log-in"></ion-icon>
           SIGN IN
         </button>
       </div>
+      </form>
+
 
 
       <!-- Other links -->
