@@ -77,9 +77,9 @@ export class ExpenseGroupsPage {
         {
           text: 'Submit',
           handler: data => {
-            var format = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+            var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
             let bool: boolean = data.category.match(format) ? true : false;
-            //bool = bool || data.category.trim() == "" ? true : false;
+            bool = bool || data.category.trim().toLowerCase() == "uncategorized" ? true : false;
 
             let bool2: boolean = data.price < 5 ? true : false;
             bool2 = bool2 || data.price.trim() == "" ? true : false
@@ -87,14 +87,24 @@ export class ExpenseGroupsPage {
             let bool3:boolean = data.name.match(format)? true:false;
             bool3 = bool3 || data.name.trim() ==""? true:false;
 
-            if (bool || bool2) {
-              this.constants.presentAlert("Error", "Invalid field");
+            if (bool || bool2 || bool3) {
+              console.log(bool,bool2,bool3);
+              let message:string = "Invalid field";
+
+              if (data.category.trim().toLowerCase() == "uncategorized"){
+                message = message.concat(". Category cannot be uncategorized");
+              }
+
+              this.constants.presentAlert("Error", message);
               return false;
             }
 
             try {
+              let category = data.category.trim();
+              if(category=="") category = null;
+
               let expense = new Expense(data.name.trim(),
-              data.price,data.category.trim())
+              data.price,category)
               this.addExpense(expense);
             } catch (error) {
               console.log("Error when calling add expense function is ", error);

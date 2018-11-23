@@ -23,20 +23,20 @@ export class ExpensesPage {
   expenses: any[]
   filteredExpense: any = [];
   dayGroups = new Set();
-  groupKeys:string[] = [];
-  arrangedFilteredExpense= new Map();
-  monthDays = [31,28,31,30,31,30,31,31,30,31,30,31]
+  groupKeys: string[] = [];
+  arrangedFilteredExpense = new Map();
+  monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
   naira = String.fromCharCode(8358);
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private storage: Storage, private loadingCtrl: LoadingController,
-    private actionSheetCtrl:ActionSheetController, private alertCtrl:AlertController,
-    private userActions:UserActionsProvider, private constants:AppConstantsProvider) {
+    private actionSheetCtrl: ActionSheetController, private alertCtrl: AlertController,
+    private userActions: UserActionsProvider, private constants: AppConstantsProvider) {
   }
 
 
   async ionViewDidLoad() {
-    console.log("Symbol is ",this.naira);
+    console.log("Symbol is ", this.naira);
     console.log('ionViewDidLoad ExpensesPage');
     const loader = this.loadingCtrl.create({
       content: "Please wait. Loading...."
@@ -51,53 +51,53 @@ export class ExpensesPage {
     loader.dismiss();
   }
 
-  async afterActionCallback(){
+  async afterActionCallback() {
     await this.userActions.getDetails("Refreshing. Please wait....");
     this.navCtrl.pop();
     console.log("Nav params data is ", this.navParams.data);
-    this.navCtrl.push(ExpensesPage,this.navParams.data);
+    this.navCtrl.push(ExpensesPage, this.navParams.data);
   }
 
-  classify(){
+  classify() {
     this.dayGroups.forEach(element => {
       let d = new Date(element);
-      let key:string = moment(element,"YYYY-MM-DD").format("DD MMM YYYY");
+      let key: string = moment(element, "YYYY-MM-DD").format("DD MMM YYYY");
 
-      if ((d.getDay()===new Date().getDay())&&
-      d.getMonth()===new Date().getMonth()){key = "Today"}
-      else if(((d.getDay()+1)%(this.monthDays[d.getMonth()])===new Date().getDay())
-      && d.getMonth() === new Date().getMonth()){
+      if ((d.getDate() === new Date().getDate()) &&
+        d.getMonth() === new Date().getMonth()) { key = "Today" }
+      else if (((d.getDate() + 1) % (this.monthDays[d.getMonth()]) === new Date().getDate())
+        && d.getMonth() === new Date().getMonth()) {
         key = "Yesterday";
       }
       this.groupKeys.push(key);
       this.arrangedFilteredExpense.set(key,
-        this.filteredExpense.filter(expense=> expense.date.toISOString()===element))
+        this.filteredExpense.filter(expense => expense.date.toISOString() === element))
     });
     console.log(this.arrangedFilteredExpense);
     console.log(this.arrangedFilteredExpense.keys.length);
   }
 
-   async deleteExpense(expense:any){
-     try{
-    let resp:any = await this.userActions.deleteExpense(expense);
-    this.constants.presentToast(resp.message,
-      this.afterActionCallback());
-     }catch(error){
-       console.log("The deletion error is ",error)
-      this.constants.presentAlert("Error",error.message);
-     }
+  async deleteExpense(expense: any) {
+    try {
+      let resp: any = await this.userActions.deleteExpense(expense);
+      this.constants.presentToast(resp.message,
+        this.afterActionCallback());
+    } catch (error) {
+      console.log("The deletion error is ", error)
+      this.constants.presentAlert("Error", error.message);
+    }
   }
 
-  async editExpense(expense:any,price:number,category:string){
-    try{
-   let resp:any = await this.userActions.editExpense(expense,price,category);
-   this.constants.presentToast(resp.message,
-     this.afterActionCallback());
-    }catch(error){
-      console.log("The edit error is ",error)
-     this.constants.presentAlert("Error",error.message);
+  async editExpense(expense: any, price: number, category: string) {
+    try {
+      let resp: any = await this.userActions.editExpense(expense, price, category);
+      this.constants.presentToast(resp.message,
+        this.afterActionCallback());
+    } catch (error) {
+      console.log("The edit error is ", error)
+      this.constants.presentAlert("Error", error.message);
     }
- }
+  }
 
   expenseFilter(num: number) {
     switch (num) {
@@ -155,10 +155,10 @@ export class ExpensesPage {
         console.log(this.filteredExpense)
         break;
 
-        case 4: this.filteredExpense = this.expenses.filter(
-          expense=>expense.category === this.navParams.get('title')
-        );
-        console.log("Category is ",this.navParams.get('title'));
+      case 4: this.filteredExpense = this.expenses.filter(
+        expense => expense.category === this.navParams.get('title')
+      );
+        console.log("Category is ", this.navParams.get('title'));
         break;
 
 
@@ -167,38 +167,38 @@ export class ExpensesPage {
     }
   }
 
-  
-  getClassifications(){
+
+  getClassifications() {
     this.filteredExpense.forEach(expense => {
       this.dayGroups.add(expense.date.toISOString());
     });
-    console.log("Day groups is ",this.dayGroups)
+    console.log("Day groups is ", this.dayGroups)
   }
 
-  options(expense:any){
-    console.log("I was clicked on ",expense);
-    let cssClass:string = "disabled";
+  options(expense: any) {
+    console.log("I was clicked on ", expense);
+    let cssClass: string = "disabled";
     let d = new Date();
-    if(expense.date.getMonth()===d.getMonth() && 
-    expense.date.getFullYear()=== d.getFullYear()){
+    if (expense.date.getMonth() === d.getMonth() &&
+      expense.date.getFullYear() === d.getFullYear()) {
       cssClass = "none"
     }
-    this.presentActionSheet(expense,cssClass);
+    this.presentActionSheet(expense, cssClass);
   }
 
-  presentActionSheet(expense:any,cssClass:string) {
+  presentActionSheet(expense: any, cssClass: string) {
     const actionSheet = this.actionSheetCtrl.create({
       title: new TitleCasePipe().transform(expense.name),
       buttons: [
         {
           text: 'Delete',
           role: 'destructive',
-          icon:  'trash',
+          icon: 'trash',
           cssClass: cssClass,
           handler: () => {
             this.presentDeleteAlert(expense);
           }
-        },{
+        }, {
           text: 'Edit',
           role: 'destructive',
           icon: 'create',
@@ -206,7 +206,7 @@ export class ExpensesPage {
           handler: () => {
             this.presentEditAlert(expense);
           }
-        },{
+        }, {
           text: 'Cancel',
           role: 'cancel',
           icon: 'close',
@@ -219,7 +219,7 @@ export class ExpensesPage {
     actionSheet.present();
   }
 
-  presentDeleteAlert(expense){
+  presentDeleteAlert(expense) {
     const alert = this.alertCtrl.create({
       title: "Delete?",
       subTitle: "Are you sure you want to delete this expense?",
@@ -228,16 +228,17 @@ export class ExpensesPage {
       },
       {
         text: "YES",
-        handler: ()=>{
-          this.deleteExpense(expense)}
+        handler: () => {
+          this.deleteExpense(expense)
+        }
       }]
     });
     alert.present();
   }
 
-  presentEditAlert(expense){
+  presentEditAlert(expense) {
     const prompt = this.alertCtrl.create({
-      title: 'Edit '+expense.name,
+      title: 'Edit ' + expense.name,
       message: "Enter the Price and Category",
       inputs: [
         {
@@ -247,7 +248,7 @@ export class ExpensesPage {
         },
         {
           name: 'category',
-          placeholder: expense.category|| "Uncategorized",
+          placeholder: expense.category || "Uncategorized",
           type: "text"
         },
       ],
@@ -261,25 +262,40 @@ export class ExpensesPage {
         {
           text: 'Save',
           handler: data => {
-            var format = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
-            let bool:boolean = data.category.match(format)?true:false;
-            bool = bool || data.category.trim()==""?true:false;
-            let bool2:boolean = data.price < 5? true:false;
-            bool2 = bool2 || data.price.trim() ==""? true:false
-            if(bool || bool2){
-              this.constants.presentAlert("Error","Invalid field");
+
+            var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+
+            let bool: boolean = data.category.match(format) ? true : false;
+            bool = bool || data.category.trim() == "" ? true : false;
+            bool = bool || data.category.trim().toLowerCase() == "uncategorized" ? true : false;
+
+            let bool2: boolean = data.price < 5 ? true : false;
+            bool2 = bool2 || data.price.trim() == "" ? true : false;
+
+            if (bool || bool2) {
+              let message:string = "Invalid field";
+
+              if (data.category.trim().toLowerCase() == "uncategorized"){
+                message = message.concat(". Category cannot be uncategorized");
+              }
+
+              this.constants.presentAlert("Error", message);
               return false;
             }
-            try{
-            this.editExpense(expense,data.price,data.category.trim());
-          }catch(error){
-            console.log("Error when calling edit function is ",error);
-          }
+
+            try {
+              this.editExpense(expense, data.price, data.category.trim());
+            } 
+            catch (error) {
+              console.log("Error when calling edit function is ", error);
+            }
           }
         }
       ]
     });
+
     prompt.present();
+
   }
 
 }
