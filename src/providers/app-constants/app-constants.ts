@@ -79,7 +79,6 @@ export class AppConstantsProvider {
        of pivot */
         partition(arr:any[],low:number,high:number) 
        {    
-          console.log("The value is ",arr[high])
            let pivot = arr[high].date;  
            let i = (low-1); // index of smaller element 
            for (let j=low; j<high; j++) 
