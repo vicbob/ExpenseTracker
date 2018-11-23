@@ -33,10 +33,13 @@ export class CategoryGroupsPage {
   }
 
   categorize(){
+    let c = [];
     this.expenses.forEach(expense => {
-      if(expense.category === null) this.categories.add(null); 
-       else this.categories.add(expense.category.toLowerCase());
+      if(expense.category === null) c.push(null); 
+       else c.push(expense.category.toLowerCase());
     });
+    c.sort();
+    this.categories = new Set(c);
     console.log(this.categories);
   }
 
