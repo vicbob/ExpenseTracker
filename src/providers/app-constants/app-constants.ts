@@ -24,15 +24,16 @@ export class Expense{
 
 export class UsernameOrEmailValidator {
   static validUsernameOrEmail(fc: FormControl){
-    let usernamePattern = Validators.pattern('[a-zA-Z]+[0-9]*')
-    let emailPattern = Validators.email;
-    if(fc.value.pattern == usernamePattern){
-      return ({validUsernameOrEmail: true});
+    let usernamePattern = /^[a-zA-Z]+[0-9]*$/
+    let emailPattern = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-\.]+$/
+    let bool:boolean = fc.value.match(usernamePattern)?true:false;
+    let bool2:boolean = fc.value.match(emailPattern)? true:false;
+    console.log(bool,bool2);
+    if(bool || bool2){
+      return (null)
     }
-    if(fc.value.pattern == emailPattern){
+    else {
       return ({validUsernameOrEmail: true});
-    } else {
-      return (null);
     }
   }
 }

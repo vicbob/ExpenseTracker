@@ -25,11 +25,36 @@ export class LoginPage {
   resetPasswordView: boolean = false;
   registerView: boolean = false;
   loginForm: FormGroup;
+  validation_messages = {
+    username: [
+        { type: 'required', message: 'Username is required.' },
+        { type: 'minlength', message: 'Username must be at least 5 characters long.' },
+        { type: 'maxlength', message: 'Username cannot be more than 25 characters long.' },
+        { type: 'pattern', message: 'Your username must contain only numbers and letters.' },
+        { type: 'validUsername', message: 'Your username has already been taken.' }
+      ],
+      name: [
+        { type: 'required', message: 'Name is required.' }
+      ],
+      usernameOrEmail: [
+        { type: 'required', message: 'Username or Email is required.' },
+        { type: 'minlength', message: 'Username or Email must be at least 5 characters long.' },
+        { type: 'maxlength', message: 'Username or Email cannot be more than 25 characters long.' },
+        { type: 'validUsernameOrEmail', message: 'Your username must contain only letters and may end with numbers, '+
+        'Email must be a valid email'}
+      ],
+      password: [
+        { type: 'required', message: 'Password is required.' },
+        { type: 'minlength', message: 'Password must be at least 5 characters long.' },
+        { type: 'maxlength', message: 'Password cannot be more than 25 characters long.' },
+      ],
+    }
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider, private alertCtrl: AlertController,
     private storage: Storage, private loadingctrl: LoadingController,
     public menu: MenuController, private formBuilder: FormBuilder) {
+
     this.loginForm = this.formBuilder.group({
       usernameOrEmail: ['', Validators.compose([
         Validators.required,
