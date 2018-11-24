@@ -4,7 +4,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { HomePage } from '../home/home';
 import { Storage } from '@ionic/storage';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { UsernameOrEmailValidator } from '../../providers/app-constants/app-constants';
+import { UsernameOrEmailValidator, PasswordValidator } from '../../providers/app-constants/app-constants';
 
 /**
  * Generated class for the LoginPage page.
@@ -25,30 +25,37 @@ export class LoginPage {
   resetPasswordView: boolean = false;
   registerView: boolean = false;
   loginForm: FormGroup;
+  registerForm: FormGroup;
+
   validation_messages = {
     username: [
-        { type: 'required', message: 'Username is required.' },
-        { type: 'minlength', message: 'Username must be at least 5 characters long.' },
-        { type: 'maxlength', message: 'Username cannot be more than 25 characters long.' },
-        { type: 'pattern', message: 'Your username must contain only numbers and letters.' },
-        { type: 'validUsername', message: 'Your username has already been taken.' }
-      ],
-      name: [
-        { type: 'required', message: 'Name is required.' }
-      ],
-      usernameOrEmail: [
-        { type: 'required', message: 'Username or Email is required.' },
-        { type: 'minlength', message: 'Username or Email must be at least 5 characters long.' },
-        { type: 'maxlength', message: 'Username or Email cannot be more than 25 characters long.' },
-        { type: 'validUsernameOrEmail', message: 'Your username must contain only letters and may end with numbers, '+
-        'Email must be a valid email'}
-      ],
-      password: [
-        { type: 'required', message: 'Password is required.' },
-        { type: 'minlength', message: 'Password must be at least 5 characters long.' },
-        { type: 'maxlength', message: 'Password cannot be more than 25 characters long.' },
-      ],
-    }
+      { type: 'required', message: 'Username is required.' },
+      { type: 'minlength', message: 'Username must be at least 5 characters long.' },
+      { type: 'maxlength', message: 'Username cannot be more than 25 characters long.' },
+      { type: 'pattern', message: 'Your username must contain only letters and may end with numbers.' },
+      { type: 'validUsername', message: 'Your username has already been taken.' }
+    ],
+    email: [
+      { type: 'required', message: 'Email is required.' },
+      { type: 'minlength', message: 'Email must be at least 5 characters long.' },
+      { type: 'maxlength', message: 'Email cannot be more than 25 characters long.' },
+      { type: 'pattern', message: 'Email must be valid' }
+    ],
+    usernameOrEmail: [
+      { type: 'required', message: 'Username or Email is required.' },
+      { type: 'minlength', message: 'Username or Email must be at least 5 characters long.' },
+      { type: 'maxlength', message: 'Username or Email cannot be more than 40 characters long.' },
+      {
+        type: 'validUsernameOrEmail', message: 'Your username must contain only letters and may end with numbers, ' +
+          'Email must be a valid email'
+      }
+    ],
+    password: [
+      { type: 'required', message: 'Password is required.' },
+      { type: 'minlength', message: 'Password must be at least 5 characters long.' },
+      { type: 'maxlength', message: 'Password cannot be more than 25 characters long.' },
+    ],
+  }
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider, private alertCtrl: AlertController,
@@ -70,6 +77,33 @@ export class LoginPage {
       ])
       ]
     });
+
+    this.registerForm = this.formBuilder.group({
+      email: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-\.]+$'),
+        Validators.maxLength(40),
+        Validators.minLength(5),
+      ])
+      ],
+      username: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(25),
+        Validators.pattern('[a-zA-Z]+[0-9]*')
+      ])],
+      password: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(25),
+        Validators.minLength(5),
+      ])
+      ],
+      passwordConfirm: ['', Validators.required]
+    },
+      (formGroup: FormGroup) => {
+        return PasswordValidator.areEqual(formGroup);
+      }
+      );
   }
 
 
@@ -80,14 +114,14 @@ export class LoginPage {
 
 
   async login() {
-    if(!this.loginForm.valid) return false;
+    if (!this.loginForm.valid) return false;
     const loader = this.loadingctrl.create({
       content: "Please wait...."
     })
     loader.present();
     console.log(this.loginForm);
-    let {usernameOrEmail,password} = this.loginForm.value;
-    console.log("Email is ", usernameOrEmail, " and password is ",password);
+    let { usernameOrEmail, password } = this.loginForm.value;
+    console.log("Email is ", usernameOrEmail, " and password is ", password);
     try {
       let resp = await this.auth.login(usernameOrEmail, password)
       this.storage.set('token', resp.access_token);
