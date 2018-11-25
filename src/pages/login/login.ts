@@ -74,7 +74,7 @@ export class LoginPage {
       password: ['', Validators.compose([
         Validators.required,
         Validators.maxLength(25),
-        Validators.minLength(5),
+        Validators.minLength(6),
       ])
       ]
     });
@@ -96,7 +96,7 @@ export class LoginPage {
       password: ['', Validators.compose([
         Validators.required,
         Validators.maxLength(25),
-        Validators.minLength(5),
+        Validators.minLength(6),
       ])
       ],
       passwordConfirm: ['', Validators.required]
