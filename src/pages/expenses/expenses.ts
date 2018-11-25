@@ -78,7 +78,7 @@ export class ExpensesPage {
   }
 
   async deleteExpense(expense: any) {
-    this.loader.present();
+    await this.loader.present();
     try {
       let resp: any = await this.userActions.deleteExpense(expense);
       this.loader.dismiss();
@@ -92,7 +92,7 @@ export class ExpensesPage {
   }
 
   async editExpense(expense: any, price: number, category: string) {
-    this.loader.present();
+    await this.loader.present();
     try {
       let resp: any = await this.userActions.editExpense(expense, price, category);
       this.loader.dismiss();

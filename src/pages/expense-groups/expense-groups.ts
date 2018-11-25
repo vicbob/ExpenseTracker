@@ -36,7 +36,7 @@ export class ExpenseGroupsPage {
   }
 
   async addExpense(expense: Expense) {
-    this.loader.present();
+    await this.loader.present();
     try {
       let resp: any = await this.userActions.addExpense(expense);
       this.loader.dismiss();
