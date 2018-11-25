@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AppConstantsProvider } from '../../providers/app-constants/app-constants';
+import { ExpenseStatisticsPage } from '../expense-statistics/expense-statistics';
+import { UserActionsProvider } from '../../providers/user-actions/user-actions';
 
 /**
  * Generated class for the MyProfilePage page.
@@ -17,19 +19,25 @@ import { AppConstantsProvider } from '../../providers/app-constants/app-constant
 export class MyProfilePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private alertCtrl:AlertController, private constants:AppConstantsProvider) {
+    private alertCtrl:AlertController, private constants:AppConstantsProvider,
+    private userActions:UserActionsProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MyProfilePage');
   }
 
-  deleteAccount(){
+  async deleteAccount(){
+    try{
+      let resp = await this.userActions.deleteAccount();
+    }
+    catch(error){
 
+    }
   }
 
-  openPage(page){
-    this.navCtrl.push(page);
+  goToStats(){
+    this.navCtrl.push(ExpenseStatisticsPage);
   }
 
   presentDeleteAlert(){
@@ -56,17 +64,17 @@ export class MyProfilePage {
         {
           name: "password",
           placeholder: 'old password',
-          type: "text"
+          type: "password"
         },
         {
           name: 'newPassword',
           placeholder: 'new password',
-          type: "text"
+          type: "password"
         },
         {
           name: 'newPasswordConfirm',
           placeholder: 'confirm new password',
-          type: "text"
+          type: "password"
         },
       ],
       buttons: [
@@ -100,6 +108,13 @@ export class MyProfilePage {
               return false;
             }
 
+            bool = data.newPassword.length<6?true:false;
+            if (bool){
+              let message:string = "Password is too short. Minimum length is 6"
+              this.constants.presentAlert("Error",message);
+              return false;
+            }
+
             if(data.newPassword != data.newPasswordConfirm){
               let message:string = "Password mismatch";
               this.constants.presentAlert("Error", message);
@@ -120,7 +135,13 @@ export class MyProfilePage {
     prompt.present();
   }
 
-  updatePassword(oldPassword:string,newPassword:string){
-
+  async updatePassword(oldPassword:string,newPassword:string){
+    try{
+      let resp = await this.userActions.updatePassword(oldPassword,newPassword);
+      this.constants.presentAlert("Success",resp.message)
+    }
+    catch(error){
+      this.constants.presentAlert("Error",error.error.message);
+    }
   }
 }

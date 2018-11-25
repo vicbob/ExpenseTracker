@@ -39,6 +39,10 @@ export class UserActionsProvider {
     })
   }
 
+  deleteAccount(): Promise<any> {
+    return
+  }
+
   deleteExpense(expense): Promise<any> {
     this.setHeadersIfNotSet();
     return new Promise((resolve, reject) => {
@@ -129,5 +133,20 @@ export class UserActionsProvider {
     this.headers.set("Content-Type", "application/json;charset=UTF-8");
     let token = await this.storage.get("token");
     this.headers = this.headers.append('Authorization', "JWT " + token);
+  }
+
+  async updatePassword(oldPassword: string, newPassword: string): Promise<any> {
+    try {
+      await this.setHeadersIfNotSet();
+      let body = {
+        "old_password": oldPassword,
+        "new_password": newPassword
+      }
+      return (await this.http.put(this.constants.BASEURL+'/user/password-change',
+      body,{headers:this.headers}).toPromise())
+    }
+    catch (error) {
+      console.log("Error in userActions update password is ", error)
+    }
   }
 }

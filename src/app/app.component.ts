@@ -10,6 +10,7 @@ import { ExpenseGroupsPage } from '../pages/expense-groups/expense-groups';
 import { CategoryGroupsPage } from '../pages/category-groups/category-groups';
 import { AppConstantsProvider } from '../providers/app-constants/app-constants';
 import { UserActionsProvider } from '../providers/user-actions/user-actions';
+import { MyProfilePage } from '../pages/my-profile/my-profile';
 
 @Component({
   templateUrl: 'app.html'
@@ -60,7 +61,12 @@ export class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    if(page == 'p'){
+      this.nav.push(MyProfilePage);
+    }
+    else{
+      this.nav.setRoot(page.component);
+    }
   }
 
   async logout() {
