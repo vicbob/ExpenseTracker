@@ -90,8 +90,7 @@
         <p text-right ion-text color="secondary" tappable (click)="toggleResetPasswordView()"><strong>Forgot Password?</strong></p>
 
         <div>
-          <button ion-button icon-start block color="dark" tappable type="submit"
-          [disabled]="!loginForm.valid && this.loginForm.touched">
+          <button ion-button icon-start block color="dark" tappable type="submit" [disabled]="!loginForm.valid && this.loginForm.touched">
             <ion-icon name="log-in"></ion-icon>
             SIGN IN
           </button>
@@ -114,7 +113,7 @@
             <ion-icon name="person" item-start class="text-primary"></ion-icon>
             Username
           </ion-label>
-          <ion-input type="text"formControlName='username' name="username"></ion-input>
+          <ion-input type="text" formControlName='username' name="username"></ion-input>
         </ion-item>
 
         <div class="error">
@@ -148,7 +147,7 @@
             <ion-icon name="lock" item-start class="text-primary"></ion-icon>
             Password
           </ion-label>
-          <ion-input type="password" formControlName='password' name="password"></ion-input>
+          <ion-input type="password" formControlName='password' name="password" [(ngModel)]='password'></ion-input>
         </ion-item>
 
         <div class="error">
@@ -160,12 +159,13 @@
           </ng-container>
         </div>
 
-        <ion-item>
+        <ion-item [class.invalid]='this.password !== this.passwordConfirm'>
           <ion-label floating>
             <ion-icon name="lock" item-start class="text-primary"></ion-icon>
             Confirm Password
           </ion-label>
-          <ion-input type="password" formControlName='passwordConfirm' name="passwordConfirm"></ion-input>
+          <ion-input  type="password" formControlName='passwordConfirm'
+            name="passwordConfirm" [(ngModel)]='passwordConfirm'></ion-input>
         </ion-item>
 
         <div class="error">
@@ -180,8 +180,7 @@
         <br><br>
 
         <div>
-          <button ion-button icon-start block color="dark" tappable 
-          [disabled]='!registerForm.valid && this.registerForm.touched'>
+          <button ion-button icon-start block color="dark" tappable [disabled]='!registerForm.valid || (this.password !== this.passwordConfirm)'>
             <ion-icon name="log-in"></ion-icon>
             SIGN UP
           </button>
@@ -189,9 +188,9 @@
 
       </form>
       <br>
-      
 
-      
+
+
 
       <div text-center margin-top>
         <span ion-text color="secondary" tappable (click)="toggleRegisterView()">Have an account? <strong>Sign in</strong></span>

@@ -21,6 +21,7 @@ import { UsernameOrEmailValidator, PasswordValidator } from '../../providers/app
 export class LoginPage {
   email: string;
   password: string;
+  passwordConfirm: string;
   username: string;
   resetPasswordView: boolean = false;
   registerView: boolean = false;
@@ -39,7 +40,7 @@ export class LoginPage {
       { type: 'required', message: 'Email is required.' },
       { type: 'minlength', message: 'Email must be at least 5 characters long.' },
       { type: 'maxlength', message: 'Email cannot be more than 25 characters long.' },
-      { type: 'pattern', message: 'Email must be valid' }
+      { type: 'email', message: 'Email must be valid' }
     ],
     usernameOrEmail: [
       { type: 'required', message: 'Username or Email is required.' },
@@ -81,7 +82,7 @@ export class LoginPage {
     this.registerForm = this.formBuilder.group({
       email: ['', Validators.compose([
         Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-\.]+$'),
+        Validators.email,
         Validators.maxLength(40),
         Validators.minLength(5),
       ])
@@ -99,11 +100,7 @@ export class LoginPage {
       ])
       ],
       passwordConfirm: ['', Validators.required]
-    },
-      (formGroup: FormGroup) => {
-        return PasswordValidator.areEqual(formGroup);
-      }
-      );
+    });
   }
 
 
@@ -148,11 +145,13 @@ export class LoginPage {
 
 
   register() {
+    if(!this.registerForm.valid) return false;
     const loader = this.loadingctrl.create({
       content: "Please wait...."
     })
     loader.present();
-    this.auth.register(this.username, this.email, this.password)
+    let {username,email,password} = this.registerForm.value;
+    this.auth.register(username, email, password)
       .then(resp => {
         loader.dismiss();
         const alert = this.alertCtrl.create({
