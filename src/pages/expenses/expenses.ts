@@ -27,6 +27,9 @@ export class ExpensesPage {
   arrangedFilteredExpense = new Map();
   monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
   naira = String.fromCharCode(8358);
+  loader = this.loadingCtrl.create({
+    content: "Please wait...."
+  });
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private storage: Storage, private loadingCtrl: LoadingController,
@@ -38,17 +41,14 @@ export class ExpensesPage {
   async ionViewDidLoad() {
     console.log("Symbol is ", this.naira);
     console.log('ionViewDidLoad ExpensesPage');
-    const loader = this.loadingCtrl.create({
-      content: "Please wait. Loading...."
-    })
-    loader.present();
+    this.loader.present();
     this.title = this.navParams.get('title');
     let data = await this.storage.get('user_details');
     this.expenses = data.expenses;
     this.expenseFilter(this.navParams.get('case'));
     this.getClassifications();
     this.classify();
-    loader.dismiss();
+    this.loader.dismiss();
   }
 
   async afterActionCallback() {
@@ -78,22 +78,28 @@ export class ExpensesPage {
   }
 
   async deleteExpense(expense: any) {
+    this.loader.present();
     try {
       let resp: any = await this.userActions.deleteExpense(expense);
+      this.loader.dismiss();
       this.constants.presentToast(resp.message,
         this.afterActionCallback());
     } catch (error) {
+      this.loader.dismiss();
       console.log("The deletion error is ", error)
       this.constants.presentAlert("Error", error.message);
     }
   }
 
   async editExpense(expense: any, price: number, category: string) {
+    this.loader.present();
     try {
       let resp: any = await this.userActions.editExpense(expense, price, category);
+      this.loader.dismiss();
       this.constants.presentToast(resp.message,
         this.afterActionCallback());
     } catch (error) {
+      this.loader.dismiss();
       console.log("The edit error is ", error)
       this.constants.presentAlert("Error", error.message);
     }
