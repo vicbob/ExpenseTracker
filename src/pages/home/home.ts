@@ -14,7 +14,7 @@ import { LoginPage } from '../login/login';
 export class HomePage {
    loader = this.loadingCtrl.create({
     content: "Fetching details...."
-  })
+  });
   userDetails:any={username:"username"};
 
   constructor(public navCtrl: NavController,private storage:Storage,
@@ -24,22 +24,23 @@ export class HomePage {
 
   }
   async ionViewDidLoad(){
+    await this.loader.present();
     try{
       await this.userActions.getDetails("Fetching details....");
-      this.loader.present();
-      this.menu.enable(true);
-      this.userDetails = await this.storage.get('user_details');
-      this.loader.dismiss();
     }
     catch(error){
       this.loader.dismiss();
+      console.log("Error is ",error);
       this.constants.presentToast("An error occured, Please login again",this.logout());
     }
-
+      this.menu.enable(true);
+      this.userDetails = await this.storage.get('user_details');
+      this.loader.dismiss();
+   
   }
 
   async logout(){
-    this.loader.present();
+    await this.loader.present();
     await this.userActions.logout();
     await this.navCtrl.popToRoot();
     await this.navCtrl.setRoot(LoginPage);
