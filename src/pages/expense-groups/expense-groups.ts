@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { ExpensesPage } from '../expenses/expenses';
-import { AppConstantsProvider,Expense } from '../../providers/app-constants/app-constants';
+import { AppConstantsProvider, Expense } from '../../providers/app-constants/app-constants';
 import { UserActionsProvider } from '../../providers/user-actions/user-actions';
 
 /**
@@ -17,30 +17,36 @@ import { UserActionsProvider } from '../../providers/user-actions/user-actions';
   templateUrl: 'expense-groups.html',
 })
 export class ExpenseGroupsPage {
+  loader = this.loadingCtrl.create({
+    content: "Please wait...."
+  });
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private alertCtrl: AlertController, private constants:AppConstantsProvider,
-    private userActions:UserActionsProvider) {
+    private alertCtrl: AlertController, private constants: AppConstantsProvider,
+    private userActions: UserActionsProvider, private loadingCtrl: LoadingController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ExpenseGroupsPage');
   }
 
-  async afterActionCallback(){
+  async afterActionCallback() {
     await this.userActions.getDetails("Refreshing. Please wait....");
-    this.openPage(0,"This Month")
+    this.openPage(0, "This Month")
   }
 
-  async addExpense(expense:Expense) {
-    try{
-      let resp:any = await this.userActions.addExpense(expense);
+  async addExpense(expense: Expense) {
+    this.loader.present();
+    try {
+      let resp: any = await this.userActions.addExpense(expense);
+      this.loader.dismiss();
       this.constants.presentToast(resp.message,
         this.afterActionCallback());
-       }catch(error){
-         console.log("The Add expense error is ",error)
-        this.constants.presentAlert("Error",error.message);
-       }
+    } catch (error) {
+      this.loader.dismiss();
+      console.log("The Add expense error is ", error)
+      this.constants.presentAlert("Error", error.message);
+    }
   }
 
   openPage(num: number, title: string) {
@@ -52,7 +58,7 @@ export class ExpenseGroupsPage {
       title: 'Add New Expense',
       inputs: [
         {
-          name:"name",
+          name: "name",
           placeholder: "name",
           type: "text"
         },
@@ -85,14 +91,14 @@ export class ExpenseGroupsPage {
             let bool2: boolean = data.price < 5 ? true : false;
             bool2 = bool2 || data.price.trim() == "" ? true : false
 
-            let bool3:boolean = data.name.match(format)? true:false;
-            bool3 = bool3 || data.name.trim() ==""? true:false;
+            let bool3: boolean = data.name.match(format) ? true : false;
+            bool3 = bool3 || data.name.trim() == "" ? true : false;
 
             if (bool || bool2 || bool3) {
-              console.log(bool,bool2,bool3);
-              let message:string = "Invalid field";
+              console.log(bool, bool2, bool3);
+              let message: string = "Invalid field";
 
-              if (data.category.trim().toLowerCase() == "uncategorized"){
+              if (data.category.trim().toLowerCase() == "uncategorized") {
                 message = message.concat(". Category cannot be uncategorized");
               }
 
@@ -102,10 +108,10 @@ export class ExpenseGroupsPage {
 
             try {
               let category = data.category.trim();
-              if(category=="") category = null;
+              if (category == "") category = null;
 
               let expense = new Expense(data.name.trim(),
-              data.price,category)
+                data.price, category)
               this.addExpense(expense);
             } catch (error) {
               console.log("Error when calling add expense function is ", error);
