@@ -39,8 +39,16 @@ export class UserActionsProvider {
     })
   }
 
-  deleteAccount(): Promise<any> {
-    return
+  async deleteAccount(): Promise<any> {
+    try{
+      await this.setHeadersIfNotSet();
+      return (await this.http.delete(this.constants.BASEURL+'/user',
+      {headers:this.headers}).toPromise())
+    }
+    catch(error){
+      console.log("The error in delete account in user actions is ",error);
+      throw error;
+    }
   }
 
   deleteExpense(expense): Promise<any> {
@@ -95,7 +103,7 @@ export class UserActionsProvider {
     }
     catch (error) {
       loader.dismiss();
-      this.constants.presentAlert("Error", error.error.error);
+      throw error;
     }
   }
 
@@ -146,7 +154,8 @@ export class UserActionsProvider {
       body,{headers:this.headers}).toPromise())
     }
     catch (error) {
-      console.log("Error in userActions update password is ", error)
+      console.log("Error in userActions update password is ", error);
+      throw error;
     }
   }
 }
