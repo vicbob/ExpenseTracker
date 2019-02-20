@@ -545,3 +545,19 @@ ion-icon[ng-reflect-disabled="true"] {
 .fadeInDown {
   animation-name: fadeInDown;
 }
+
+@media screen and (width: 320px) {
+  ion-content{
+      background: url("../../assets/imgs/bg3.png") !important;
+  }
+}
+
+@media screen and (width: 375px) {
+  ion-content{
+      background: url("../../assets/imgs/bg3_375.png") !important;
+  }
+}
+
+ion-card{
+  background-color: rgb(188, 212, 223) !important;
+}

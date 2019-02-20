@@ -78,30 +78,39 @@ export class ExpensesPage {
   }
 
   async deleteExpense(expense: any) {
-    await this.loader.present();
+    let newLoader = this.loadingCtrl.create({
+      content: "Please wait...."
+    });
+    newLoader.present();
+
     try {
       let resp: any = await this.userActions.deleteExpense(expense);
-      this.loader.dismiss();
+      newLoader.dismiss();
       this.constants.presentToast(resp.message,
         this.afterActionCallback());
     } catch (error) {
-      this.loader.dismiss();
+      newLoader.dismiss();
       console.log("The deletion error is ", error)
       this.constants.presentAlert("Error", error.message);
     }
   }
 
   async editExpense(expense: any, price: number, category: string) {
-    await this.loader.present();
+    let newLoader = this.loadingCtrl.create({
+      content: "Please wait...."
+    });
+    
+    newLoader.present()
     try {
       let resp: any = await this.userActions.editExpense(expense, price, category);
-      this.loader.dismiss();
-      this.constants.presentToast(resp.message,
-        this.afterActionCallback());
+      await newLoader.dismiss();
+      
+      await this.constants.presentToast(resp.message,
+      await this.afterActionCallback());
     } catch (error) {
-      this.loader.dismiss();
+      await newLoader.dismiss();
       console.log("The edit error is ", error)
-      this.constants.presentAlert("Error", error.message);
+      await this.constants.presentAlert("Error", error.message);
     }
   }
 
