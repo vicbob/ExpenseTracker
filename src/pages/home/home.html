@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <button ion-button menuToggle>
-      <ion-icon name="menu" color="navbar"></ion-icon>
+      <ion-icon name="menu" color="navbartext"></ion-icon>
     </button>
     <ion-title>Home</ion-title>
   </ion-navbar>
@@ -19,5 +19,11 @@
       View Categories
     </ion-card-content>
   </ion-card>
+
+  <ion-card (click)="openPage('g')"> 
+      <ion-card-content>
+        Generate Report
+      </ion-card-content>
+    </ion-card>
   
 </ion-content>

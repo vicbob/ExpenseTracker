@@ -6,6 +6,7 @@ import { CategoryGroupsPage } from '../category-groups/category-groups';
 import { ExpenseGroupsPage } from '../expense-groups/expense-groups';
 import { AppConstantsProvider } from '../../providers/app-constants/app-constants';
 import { LoginPage } from '../login/login';
+import { ReportGeneratorPage } from '../report-generator/report-generator';
 
 @Component({
   selector: 'page-home',
@@ -50,6 +51,7 @@ export class HomePage {
     switch(char){
       case 'c': this.navCtrl.push(CategoryGroupsPage); break;
       case 'e': this.navCtrl.push(ExpenseGroupsPage); break;
+      case 'g': this.navCtrl.push(ReportGeneratorPage); break;
     }
   }
 }
