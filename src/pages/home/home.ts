@@ -15,7 +15,6 @@ export class HomePage {
    loader = this.loadingCtrl.create({
     content: "Fetching details...."
   });
-  userDetails:any={username:"username"};
 
   constructor(public navCtrl: NavController,private storage:Storage,
     private userActions:UserActionsProvider,private loadingCtrl:LoadingController,
@@ -34,7 +33,6 @@ export class HomePage {
       this.constants.presentToast("An error occured, Please login again",this.logout());
     }
       this.menu.enable(true);
-      this.userDetails = await this.storage.get('user_details');
       this.loader.dismiss();
    
   }
