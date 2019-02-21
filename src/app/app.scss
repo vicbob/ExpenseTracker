@@ -41,7 +41,7 @@
 //
 //
 .text-primary {
-  color: color($colors, primary);
+  color: color($colors, text);
 }
 
 .text-secondary {
@@ -371,7 +371,7 @@ ion-navbar.no-border {
     }
   }
   .toolbar-background {
-    background-image: linear-gradient(135deg, color($colors, dark), color($colors, primary));
+    background-image: linear-gradient(135deg, color($colors, primary), color($colors, navbar));
   }
 
   .other-data {
@@ -546,18 +546,50 @@ ion-icon[ng-reflect-disabled="true"] {
   animation-name: fadeInDown;
 }
 
-@media screen and (width: 320px) {
+@media screen and (max-width: 320px) {
   ion-content{
       background: url("../../assets/imgs/bg3.png") !important;
   }
 }
 
-@media screen and (width: 375px) {
+@media screen and (max-width: 375px) {
   ion-content{
       background: url("../../assets/imgs/bg3_375.png") !important;
   }
 }
 
 ion-card{
-  background-color: rgb(188, 212, 223) !important;
+  background-color: rgb(206, 225, 235) !important;
+  height: 60px;
 }
+
+.toolbar-background {
+  background-color: map-get($colors,navbar );
+}
+
+.toolbar-title-md{
+  color: map-get($colors,navbartext);
+}
+ion-header ion-icon.back-button-icon.icon {
+  color: map-get($colors, navbartext);
+}
+
+ion-card-content{
+  color: map-get($colors,text );
+  padding: 18px !important;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.menu-btn{
+  background: rgb(206, 225, 235) !important;
+}
+
+.nav ion-item{
+  background-color: rgb(206, 225, 235) !important;
+}
+
+ion-list-header{
+  background: transparent !important;
+}
+
