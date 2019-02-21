@@ -89,6 +89,9 @@ export class UserActionsProvider {
     })
   }
 
+  /*Calls a method to get the details from the API and sets app constants
+  (username and email)
+  */
   async getDetails(loaderMessage: string) {
     const loader = this.loadingCtrl.create({
       content: loaderMessage
@@ -107,8 +110,8 @@ export class UserActionsProvider {
     }
   }
 
-  /* Will return user details object with chronologically 
-  sorted expenses.
+  /* Will make call to API and return user details object with 
+  chronologically sorted expenses.
   */
   async getUserDetails(): Promise<any> {
     await this.setHeadersIfNotSet();
