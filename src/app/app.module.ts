@@ -19,6 +19,7 @@ import { ExpensesPage } from '../pages/expenses/expenses';
 import { LongPressModule } from 'ionic-long-press';
 import { MyProfilePage } from '../pages/my-profile/my-profile';
 import { ExpenseStatisticsPage } from '../pages/expense-statistics/expense-statistics';
+import { ReportGeneratorPage } from '../pages/report-generator/report-generator';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ExpenseStatisticsPage } from '../pages/expense-statistics/expense-stati
     CategoryGroupsPage,
     ExpensesPage,
     MyProfilePage,
-    ExpenseStatisticsPage
+    ExpenseStatisticsPage,
+    ReportGeneratorPage
   ],
   imports: [
     BrowserModule,
@@ -47,7 +49,8 @@ import { ExpenseStatisticsPage } from '../pages/expense-statistics/expense-stati
     CategoryGroupsPage,
     ExpensesPage,
     MyProfilePage,
-    ExpenseStatisticsPage
+    ExpenseStatisticsPage,
+    ReportGeneratorPage
   ],
   providers: [
     StatusBar,

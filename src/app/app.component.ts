@@ -11,6 +11,7 @@ import { CategoryGroupsPage } from '../pages/category-groups/category-groups';
 import { AppConstantsProvider } from '../providers/app-constants/app-constants';
 import { UserActionsProvider } from '../providers/user-actions/user-actions';
 import { MyProfilePage } from '../pages/my-profile/my-profile';
+import { ReportGeneratorPage } from '../pages/report-generator/report-generator';
 
 @Component({
   templateUrl: 'app.html'
@@ -35,7 +36,8 @@ export class MyApp {
     this.pages = [
       { title: 'Home', component: HomePage },
       { title: "Expenses", component: ExpenseGroupsPage },
-      { title: 'Categories', component: CategoryGroupsPage }
+      { title: 'Categories', component: CategoryGroupsPage },
+      { title: 'Generate Report',component:ReportGeneratorPage}
     ];
 
   }
