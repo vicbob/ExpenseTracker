@@ -39,6 +39,7 @@ export class HomePage {
    
   }
 
+  //Forced logout when an error occurs fetching details
   async logout(){
     await this.loader.present();
     await this.userActions.logout();

@@ -1,18 +1,14 @@
 <ion-header>
   <ion-navbar>
     <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
+      <ion-icon name="menu" color="navbar"></ion-icon>
     </button>
     <ion-title>Home</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h3>Hello {{userDetails.username}}!!</h3>
-
-  <p>
-    What will you like to do?
-  </p>
+  <h3 text-center>Welcome {{userDetails.username}}!!</h3>
 <br>
   <ion-card (click)="openPage('e')">
     <ion-card-content>
