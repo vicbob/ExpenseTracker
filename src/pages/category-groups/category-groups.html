@@ -16,13 +16,9 @@
 <ion-content padding>
   <div *ngIf="categories.size">
     <ion-card *ngFor="let category of categories">
-      <ion-card-content>
-        <ion-list>
-          <button ion-item (click)="goToExpenses(category)">
+      <ion-card-content (click)="goToExpenses(category)">
             <ion-icon name="ios-folder-open" item-start></ion-icon>
             {{category || "Uncategorized" | titlecase}}
-          </button>
-        </ion-list>
       </ion-card-content>
     </ion-card>
   </div>
