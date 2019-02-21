@@ -4,6 +4,7 @@ import { AppConstantsProvider } from '../../providers/app-constants/app-constant
 import { ExpenseStatisticsPage } from '../expense-statistics/expense-statistics';
 import { UserActionsProvider } from '../../providers/user-actions/user-actions';
 import { LoginPage } from '../login/login';
+import { ReportGeneratorPage } from '../report-generator/report-generator';
 
 /**
  * Generated class for the MyProfilePage page.
@@ -55,8 +56,11 @@ export class MyProfilePage {
     }
   }
 
-  goToStats() {
-    this.navCtrl.push(ExpenseStatisticsPage);
+  openPage(char: string) {
+    switch (char) {
+      case 's': this.navCtrl.push(ExpenseStatisticsPage); break;
+      case 'g': this.navCtrl.push(ReportGeneratorPage); break;
+    }
   }
 
   presentDeleteAlert() {

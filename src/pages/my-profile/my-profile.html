@@ -15,8 +15,13 @@
 
 <ion-content padding>
 
-  <ion-list>
-    <ion-item (click)=goToStats()>
+  <ion-list class="nav">
+      <ion-item (click)="openPage('g')">
+          <ion-icon name="document" item-start></ion-icon>
+            Generate Report
+        </ion-item>
+
+    <ion-item (click)="openPage('s')">
       <ion-icon name="stats" item-start></ion-icon>
         View My Expense Statistics
     </ion-item>
