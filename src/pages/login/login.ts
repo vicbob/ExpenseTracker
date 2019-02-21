@@ -4,7 +4,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { HomePage } from '../home/home';
 import { Storage } from '@ionic/storage';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { UsernameOrEmailValidator, PasswordValidator } from '../../providers/app-constants/app-constants';
+import { UsernameOrEmailValidator, PasswordValidator, AppConstantsProvider } from '../../providers/app-constants/app-constants';
 
 /**
  * Generated class for the LoginPage page.
@@ -61,7 +61,8 @@ export class LoginPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider, private alertCtrl: AlertController,
     private storage: Storage, private loadingctrl: LoadingController,
-    public menu: MenuController, private formBuilder: FormBuilder) {
+    public menu: MenuController, private formBuilder: FormBuilder,
+    private constants: AppConstantsProvider) {
 
     this.loginForm = this.formBuilder.group({
       usernameOrEmail: ['', Validators.compose([
@@ -121,8 +122,10 @@ export class LoginPage {
     console.log("Email is ", usernameOrEmail, " and password is ", password);
     try {
       let resp = await this.auth.login(usernameOrEmail, password)
+      console.log("Login response is", resp);
       this.storage.set('token', resp.access_token);
       loader.dismiss();
+      this.constants.presentToast("Welcome "+resp.username,null)
       this.navCtrl.setRoot(HomePage);
     }
     catch (error) {
@@ -145,12 +148,12 @@ export class LoginPage {
 
 
   register() {
-    if(!this.registerForm.valid) return false;
+    if (!this.registerForm.valid) return false;
     const loader = this.loadingctrl.create({
       content: "Please wait...."
     })
     loader.present();
-    let {username,email,password} = this.registerForm.value;
+    let { username, email, password } = this.registerForm.value;
     this.auth.register(username, email, password)
       .then(resp => {
         loader.dismiss();
