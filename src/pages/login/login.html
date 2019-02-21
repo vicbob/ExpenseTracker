@@ -14,21 +14,10 @@
     <!-- Reset Password Form   -->
     <div class="rform" *ngIf="resetPasswordView && !registerView">
       <br>
-      <button ion-button outline color="text-primary" icon-start (click)="toggleResetPasswordView()">
-        <ion-icon name="arrow-back" item-start class="text-primary"></ion-icon>
-        <strong>Go Back!</strong>
+      <button ion-button color="dark"  icon-start (click)="toggleResetPasswordView()">
+        <ion-icon name="arrow-back" item-start></ion-icon>
       </button>
-
-      <div padding-horizontal text-center>
-        <h2 ion-text class="text-white" no-margin>
-          <strong>Reset your Password</strong>
-        </h2>
-      </div>
-
-      <p text-center ion-text color="text-primary"><strong>Please enter your email address below to reset your
-          password!</strong>
-      </p>
-
+    
       <div class="resetPassword">
         <form class="list-form">
           <ion-item>
@@ -42,7 +31,7 @@
       </div>
       <br><br>
       <div>
-        <button ion-button icon-start block outline color="light" (click)="resetPassword()">
+        <button ion-button icon-start block tappable color="dark" (click)="resetPassword()">
           <ion-icon name="log-in"></ion-icon>
           Reset my password
         </button>
