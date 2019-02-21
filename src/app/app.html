@@ -6,7 +6,7 @@
         <ion-row>
           <ion-col col-4>
               <div class="user-avatar">
-                <img src="../assets/img/avatar.jpeg">
+                <img src="../assets/imgs/Blank_Avatar.png">
               </div>
           </ion-col>
           <ion-col padding-top col-8>
@@ -40,7 +40,7 @@
   <ion-content color="primary">
 
     <ion-list class="user-list">
-      <button ion-item menuClose class="text-1x" *ngFor="let menuItem of pages" (click)="openPage(menuItem)">
+      <button ion-item menuClose class="text-1x menu-btn" *ngFor="let menuItem of pages" (click)="openPage(menuItem)">
         <!-- <ion-icon item-left [name]="menuItem.icon" color="primary"></ion-icon> -->
         <span ion-text color="primary">{{menuItem.title}}</span>
       </button>
