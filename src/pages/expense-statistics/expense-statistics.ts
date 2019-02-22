@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { StatisticsProvider } from '../../providers/statistics/statistics';
 
 /**
  * Generated class for the ExpenseStatisticsPage page.
@@ -14,12 +15,20 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'expense-statistics.html',
 })
 export class ExpenseStatisticsPage {
+  result = {hsc:"",lsc:"",hpe:"",hsd:"",lsd:""}
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    private statsProvider:StatisticsProvider, private loadingCtrl:LoadingController) {
   }
 
-  ionViewDidLoad() {
+  async ionViewDidLoad() {
     console.log('ionViewDidLoad ExpenseStatisticsPage');
+    let loader = this.loadingCtrl.create({
+      content: "Calculating details...."
+    })
+    loader.present()
+    this.result = await this.statsProvider.generateStats();
+    loader.dismiss()
   }
 
 }

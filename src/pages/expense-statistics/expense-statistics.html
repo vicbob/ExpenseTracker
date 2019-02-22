@@ -7,12 +7,44 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>ExpenseStatisticsPage</ion-title>
+    <ion-title>Statistics</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <ion-list class="user-list nav">
+    <ion-item>
+      <ion-icon name="stats" item-start></ion-icon>
+      Highest Spending Category
+      <p class="result"> <strong>{{result.hsc}}</strong></p>
+    </ion-item>
 
+    <ion-item>
+      <ion-icon name="stats" item-start></ion-icon>
+      Lowest Spending Category
+      <p class="result"> <strong>{{result.lsc}}</strong></p>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="stats" item-start></ion-icon>
+      Highest Priced Expense
+      <p class="result"> <strong>{{result.hpe}}</strong></p>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="stats" item-start></ion-icon>
+      Highest Spending Day
+      <p class="result"> <strong>{{result.hpd}}</strong></p>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="stats" item-start></ion-icon>
+      Lowest Spending Day
+      <p class="result"> <strong>{{result.lsd}}</strong></p>
+    </ion-item>
+
+
+  </ion-list>
 </ion-content>
