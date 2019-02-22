@@ -20,6 +20,7 @@ import { LongPressModule } from 'ionic-long-press';
 import { MyProfilePage } from '../pages/my-profile/my-profile';
 import { ExpenseStatisticsPage } from '../pages/expense-statistics/expense-statistics';
 import { ReportGeneratorPage } from '../pages/report-generator/report-generator';
+import { StatisticsProvider } from '../providers/statistics/statistics';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { ReportGeneratorPage } from '../pages/report-generator/report-generator'
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     AppConstantsProvider,
-    UserActionsProvider
+    UserActionsProvider,
+    StatisticsProvider
   ]
 })
 export class AppModule {}
