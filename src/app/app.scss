@@ -578,7 +578,7 @@ ion-header ion-icon.back-button-icon.icon {
 }
 
 ion-card-content{
-  color: map-get($colors,text );
+  color: map-get($colors,primary );
   padding: 18px !important;
   text-align: center;
   font-size: 1.5rem;
@@ -589,7 +589,8 @@ ion-card-content{
 }
 
 .nav ion-item{
-  background-color: map-get($colors,canvas) !important;
+  background-color:inherit !important;
+  margin: 0 0 15px 0 !important;
 }
 
 ion-list-header{
@@ -599,4 +600,29 @@ ion-list-header{
 .nav{
   border-radius: 8px !important;
   overflow: hidden !important;
+  background-color: map-get($colors,canvas) !important;
+}
+
+//alert style
+.alert-wrapper{
+  border-radius: 10px !important;
+  background-color: #d3d8dc !important;
+}
+
+.alert-head{
+  text-align: center !important;
+}
+
+.alert-input{
+  font-style: oblique;
+  color: #4c6df9 !important;
+}
+
+.alert-input-group{
+  margin:0 10px !important;
+}
+
+ion-icon{
+  float: left !important;
+  font-size: 1.4em !important;
 }
