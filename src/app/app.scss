@@ -559,7 +559,7 @@ ion-icon[ng-reflect-disabled="true"] {
 }
 
 ion-card{
-  background-color: rgb(206, 225, 235) !important;
+  background-color: map-get($colors,canvas) !important;
   height: 60px;
 }
 
@@ -569,6 +569,9 @@ ion-card{
 
 .toolbar-title-md{
   color: map-get($colors,navbartext);
+  font-size: 1.9rem !important;
+  font-weight: 600 !important;
+  padding: 0 60px !important;
 }
 ion-header ion-icon.back-button-icon.icon {
   color: map-get($colors, navbartext);
@@ -582,17 +585,17 @@ ion-card-content{
 }
 
 .menu-btn{
-  background: rgb(206, 225, 235) !important;
+  background: map-get($colors,canvas) !important;
 }
 
 .nav ion-item{
-  background-color: rgb(206, 225, 235) !important;
+  background-color: map-get($colors,canvas) !important;
 }
 
 ion-list-header{
   background: transparent !important;
 }
-
+//style for ion-list
 .nav{
   border-radius: 8px !important;
   overflow: hidden !important;
