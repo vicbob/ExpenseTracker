@@ -36,14 +36,17 @@ export class ExpenseGroupsPage {
   }
 
   async addExpense(expense: Expense) {
-    await this.loader.present();
+    let loader = this.loadingCtrl.create({
+      content: "Please wait...."
+    });
+    loader.present();
     try {
       let resp: any = await this.userActions.addExpense(expense);
-      this.loader.dismiss();
+      loader.dismiss();
       this.constants.presentToast(resp.message,
         this.afterActionCallback());
     } catch (error) {
-      this.loader.dismiss();
+      loader.dismiss();
       console.log("The Add expense error is ", error)
       this.constants.presentAlert("Error", error.message);
     }

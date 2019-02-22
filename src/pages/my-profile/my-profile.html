@@ -15,25 +15,25 @@
 
 <ion-content padding>
 
-  <ion-list class="nav">
-      <ion-item (click)="openPage('g')">
-          <ion-icon name="document" item-start></ion-icon>
-            Generate Report
-        </ion-item>
+  <ion-list class="user-list nav">
+    <ion-item (click)="openPage('g')">
+      <ion-icon name="document" item-start></ion-icon>
+      Generate Report
+    </ion-item>
 
     <ion-item (click)="openPage('s')">
       <ion-icon name="stats" item-start></ion-icon>
-        View My Expense Statistics
+      View My Expense Statistics
     </ion-item>
 
     <ion-item (click)=presentUpdatePasswordAlert()>
       <ion-icon name="create" item-start></ion-icon>
-        Change My Password
+      Change My Password
     </ion-item>
 
     <ion-item (click)=presentDeleteAlert()>
       <ion-icon name="trash" item-start></ion-icon>
-        Delete My Account
+      Delete My Account
     </ion-item>
 
   </ion-list>
