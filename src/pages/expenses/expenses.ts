@@ -51,6 +51,8 @@ export class ExpensesPage {
     this.loader.dismiss();
   }
 
+
+  //callback to be called by toast after an action
   async afterActionCallback() {
     await this.userActions.getDetails("Refreshing. Please wait....");
     this.navCtrl.pop();
@@ -58,10 +60,12 @@ export class ExpensesPage {
     this.navCtrl.push(ExpensesPage, this.navParams.data);
   }
 
+
+// Prepares the data for display in the form of a dictionary
   classify() {
     this.dayGroups.forEach(element => {
       let d = new Date(element);
-      let key: string = moment(element, "YYYY-MM-DD").format("DD MMM YYYY");
+      let key: string = moment(element, "YYYY-MM-DD").format("DD MMM, YYYY");
 
       if ((d.getDate() === new Date().getDate()) &&
         d.getMonth() === new Date().getMonth()) { key = "Today" }
@@ -69,6 +73,7 @@ export class ExpensesPage {
         && d.getMonth() === new Date().getMonth()) {
         key = "Yesterday";
       }
+
       this.groupKeys.push(key);
       this.arrangedFilteredExpense.set(key,
         this.filteredExpense.filter(expense => expense.date.toISOString() === element))
@@ -99,14 +104,14 @@ export class ExpensesPage {
     let newLoader = this.loadingCtrl.create({
       content: "Please wait...."
     });
-    
+
     newLoader.present()
     try {
       let resp: any = await this.userActions.editExpense(expense, price, category);
       await newLoader.dismiss();
-      
+
       await this.constants.presentToast(resp.message,
-      await this.afterActionCallback());
+        await this.afterActionCallback());
     } catch (error) {
       await newLoader.dismiss();
       console.log("The edit error is ", error)
@@ -290,9 +295,9 @@ export class ExpensesPage {
             bool2 = bool2 || data.price.trim() == "" ? true : false;
 
             if (bool || bool2) {
-              let message:string = "Invalid field";
+              let message: string = "Invalid field";
 
-              if (data.category.trim().toLowerCase() == "uncategorized"){
+              if (data.category.trim().toLowerCase() == "uncategorized") {
                 message = message.concat(". Category cannot be uncategorized");
               }
 
@@ -302,7 +307,7 @@ export class ExpensesPage {
 
             try {
               this.editExpense(expense, data.price, data.category.trim());
-            } 
+            }
             catch (error) {
               console.log("Error when calling edit function is ", error);
             }

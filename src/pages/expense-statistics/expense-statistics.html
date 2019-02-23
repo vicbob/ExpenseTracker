@@ -18,31 +18,39 @@
     <ion-item>
       <ion-icon name="stats" item-start></ion-icon>
       Highest Spending Category
-      <p class="result"> <strong>{{result.hsc.category | titlecase}} {{naira+ result.hsc.price}}</strong></p>
+      <p class="result"> <label> Category: </label> <strong>{{result.hsc.category | titlecase}}</strong></p>
+      <p class="result"> <label> Amount Spent: </label> <strong>{{naira+ result.hsc.price}}</strong></p>
     </ion-item>
 
     <ion-item>
       <ion-icon name="stats" item-start></ion-icon>
       Lowest Spending Category
-      <p class="result"> <strong>{{result.lsc.category | titlecase}} {{naira+ result.lsc.price}}</strong></p>
+      <p class="result"> <label> Category: </label> <strong>{{result.lsc.category | titlecase}}</strong></p>
+      <p class="result"> <label> Amount Spent: </label> <strong>{{naira+ result.lsc.price}}</strong></p>
     </ion-item>
 
     <ion-item>
       <ion-icon name="stats" item-start></ion-icon>
       Highest Priced Expense
-      <p class="result"> <strong>{{result.hpe}}</strong></p>
+      <p class="result"> <label> Name: </label> <strong>{{result.hpe.name}}</strong></p>
+      <p class="result"> <label> Price: </label> <strong>{{result.hpe.price}}</strong></p>
+      <p class="result">  <label> Category: </label> <strong>{{result.hpe.category}}</strong></p>
+      <p class="result">  <label> Date: </label> <strong>{{result.hpe.date | date}}</strong></p>
+      
     </ion-item>
 
     <ion-item>
       <ion-icon name="stats" item-start></ion-icon>
       Highest Spending Day
-      <p class="result"> <strong>{{result.hpd}}</strong></p>
+      <p class="result"> <label> Date: </label> <strong>{{result.hsd.date|date}}</strong></p>
+      <p class="result"> <label> Amount Spent: </label> <strong>{{naira+result.hsd.amount}}</strong></p>
     </ion-item>
 
     <ion-item>
       <ion-icon name="stats" item-start></ion-icon>
       Lowest Spending Day
-      <p class="result"> <strong>{{result.lsd}}</strong></p>
+      <p class="result"> <label> Date: </label> <strong>{{result.lsd.date|date}}</strong></p>
+      <p class="result"> <label> Amount Spent: </label> <strong>{{naira+result.lsd.amount}}</strong></p>
     </ion-item>
 
 

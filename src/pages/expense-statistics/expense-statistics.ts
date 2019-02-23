@@ -18,7 +18,9 @@ export class ExpenseStatisticsPage {
   result = {
     hsc: { category: "", price: "" },
     lsc: { category: "", price: "" },
-    hpe: "", hsd: "", lsd: ""
+    hpe: { category: "", price: "", date: "", name: "" },
+    hsd: { date: "", amount: "" },
+    lsd: { date: "", amount: "" }
   }
   naira = String.fromCharCode(8358);
 
