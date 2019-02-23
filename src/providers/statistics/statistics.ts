@@ -76,7 +76,9 @@ export class StatisticsProvider {
       i++
       sumOfDayPrices.push(0) //initialize array
       await expenses.forEach((expense) => {
-        if (expense.date == day) {
+        let date = expense.date
+        if (day.getDate() == date.getDate() && day.getMonth() == date.getMonth() &&
+        day.getFullYear() == date.getFullYear()) {
           sumOfDayPrices[i] += expense.price
         }
       })
