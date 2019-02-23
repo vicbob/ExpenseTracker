@@ -581,7 +581,7 @@ ion-card-content{
   color: map-get($colors,primary );
   padding: 18px !important;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.6rem !important;
 }
 
 .menu-btn{
@@ -625,4 +625,9 @@ ion-list-header{
 ion-icon{
   float: left !important;
   font-size: 1.4em !important;
+}
+
+//style for select ion-item
+ion-label{
+  font-size: 1.5rem !important;
 }
