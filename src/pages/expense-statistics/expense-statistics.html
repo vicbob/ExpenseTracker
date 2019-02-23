@@ -18,13 +18,13 @@
     <ion-item>
       <ion-icon name="stats" item-start></ion-icon>
       Highest Spending Category
-      <p class="result"> <strong>{{result.hsc}}</strong></p>
+      <p class="result"> <strong>{{result.hsc.category | titlecase}} {{naira+ result.hsc.price}}</strong></p>
     </ion-item>
 
     <ion-item>
       <ion-icon name="stats" item-start></ion-icon>
       Lowest Spending Category
-      <p class="result"> <strong>{{result.lsc}}</strong></p>
+      <p class="result"> <strong>{{result.lsc.category | titlecase}} {{naira+ result.lsc.price}}</strong></p>
     </ion-item>
 
     <ion-item>

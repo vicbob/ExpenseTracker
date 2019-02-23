@@ -23,9 +23,10 @@ export class StatisticsProvider {
       let userDetails = await this.storage.get("user_details")
       expenses = userDetails.expenses
       console.log(expenses);
-      
     }
+    
     let {hsc,lsc} = await this.calculateLSCAndHSC(expenses)
+    
     return {hsc:hsc,lsc:lsc};
   }
 
@@ -58,9 +59,9 @@ export class StatisticsProvider {
     
   }
 
-  categorize(expenses:Array<any>) {
+  async categorize(expenses:Array<any>) {
     let c = [];
-    expenses.forEach(expense => {
+    await expenses.forEach(expense => {
       if (expense.category === null) c.push(null);
       else c.push(expense.category.toLowerCase());
     });
