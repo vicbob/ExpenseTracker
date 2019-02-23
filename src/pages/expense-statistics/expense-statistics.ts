@@ -15,10 +15,15 @@ import { StatisticsProvider } from '../../providers/statistics/statistics';
   templateUrl: 'expense-statistics.html',
 })
 export class ExpenseStatisticsPage {
-  result = {hsc:"",lsc:"",hpe:"",hsd:"",lsd:""}
+  result = {
+    hsc: { category: "", price: "" },
+    lsc: { category: "", price: "" },
+    hpe: "", hsd: "", lsd: ""
+  }
+  naira = String.fromCharCode(8358);
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private statsProvider:StatisticsProvider, private loadingCtrl:LoadingController) {
+    private statsProvider: StatisticsProvider, private loadingCtrl: LoadingController) {
   }
 
   async ionViewDidLoad() {
