@@ -21,6 +21,7 @@ import { MyProfilePage } from '../pages/my-profile/my-profile';
 import { ExpenseStatisticsPage } from '../pages/expense-statistics/expense-statistics';
 import { ReportGeneratorPage } from '../pages/report-generator/report-generator';
 import { StatisticsProvider } from '../providers/statistics/statistics';
+import { ExportsProvider } from '../providers/exports/exports';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { StatisticsProvider } from '../providers/statistics/statistics';
     AuthProvider,
     AppConstantsProvider,
     UserActionsProvider,
-    StatisticsProvider
+    StatisticsProvider,
+    ExportsProvider
   ]
 })
 export class AppModule {}
