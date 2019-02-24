@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { File } from '@ionic-native/file/ngx';
 import * as xlsx from 'xlsx';
 import { Platform } from 'ionic-angular';
-
+import { FileOpener } from '@ionic-native/file-opener/ngx'
 /*
   Generated class for the ExportsProvider provider.
 
@@ -14,9 +14,11 @@ import { Platform } from 'ionic-angular';
 export class ExportsProvider {
   data: any
 
-  constructor(public http: HttpClient, public file: File, private plt: Platform) {
+  constructor(public http: HttpClient, public file: File, private plt: Platform,
+    public fileOpener: FileOpener) {
     console.log('Hello ExportsProvider Provider');
   }
+
 
   createXlsx() {
     console.log("Data is ", this.data);
@@ -37,6 +39,7 @@ export class ExportsProvider {
     return wbout;
   }
 
+
   createBuffer(s) {
     let buffer = new ArrayBuffer(s.length);
     let view = new Uint8Array(buffer);
@@ -46,10 +49,15 @@ export class ExportsProvider {
 
 
   async exportXlsx(expenses: any[]) {
-    console.log(xlsx.version,"is the version")
+    console.log(xlsx.version, "is the version")
     this.data = expenses
     let wb = this.createXlsx();
     this.downloadXlsx(wb)
+  }
+
+  async exportPdf(expenses:any[]){
+    console.log("expenses for export is ",expenses);
+    
   }
 
   getStoragePath() {
@@ -70,14 +78,14 @@ export class ExportsProvider {
 
     if (this.plt.is('cordova')) {
       // Save the xlsx to the data Directory of our App
-      
-      this.file.writeFile("C:\\Users\\Victor\\Downloads\\", 'expenseExport.xlsx', blob, { append: true,replace:false })
-      // .then(fileEntry => {
-      //   // Open the xlsx with the correct OS tools
-      //   this.fileOpener.open(this.file.dataDirectory + 'myletter.pdf', 'application/pdf');
-      // })
+
+      this.file.writeFile(this.file.dataDirectory, 'expenseExport.xlsx', blob, { append: true, replace: false })
+        .then(fileEntry => {
+          // Open the xlsx with the correct OS tools
+          this.fileOpener.open(this.file.dataDirectory + 'myletter.pdf', 'application/pdf');
+        })
     }
-     else {
+    else {
       //   // On a browser simply use download!
       let link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);

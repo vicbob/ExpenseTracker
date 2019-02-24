@@ -7,12 +7,28 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>ReportGenerator</ion-title>
+    <ion-title>Report</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <ion-card (click)="generateReport('0')">
+    <ion-card-content>
+      This Month
+    </ion-card-content>
+  </ion-card>
 
+  <ion-card (click)="generateReport('1')">
+    <ion-card-content>
+      Last Month
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card (click)="generateReport('2')">
+    <ion-card-content>
+      Other
+    </ion-card-content>
+  </ion-card>
 </ion-content>

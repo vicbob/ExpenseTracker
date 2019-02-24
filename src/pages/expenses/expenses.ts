@@ -125,37 +125,20 @@ export class ExpensesPage {
   expenseFilter(num: number) {
     switch (num) {
       case 0: this.filteredExpense = this.expenses.filter(expense => {
-        let d = new Date();
-
-        if (expense.date.getMonth() === d.getMonth() && expense.date.getFullYear()
-          === d.getFullYear()) {
-          return expense
-        }
+        return this.constants.thisMonth(expense)
       });
         console.log(this.filteredExpense)
         break;
 
       case 1: this.filteredExpense = this.expenses.filter(expense => {
-        let d = new Date();
-        let yearDifference = d.getFullYear() - expense.date.getFullYear();
-
-        if ((expense.date.getMonth() + 1) % 12 === d.getMonth()
-          && yearDifference < 2) {
-          return expense
-        }
+        return this.constants.lastMonth(expense)
       });
         console.log(this.filteredExpense)
         break;
 
       case 2:
         this.filteredExpense = this.expenses.filter(expense => {
-          let d = new Date();
-          let yearDifference = d.getFullYear() - expense.date.getFullYear();
-
-          if ((expense.date.getMonth() + 2) % 12 === d.getMonth()
-            && yearDifference < 2) {
-            return expense
-          }
+          return this.constants.lastTwoMonths(expense)
         });
         console.log(this.filteredExpense)
         break;
@@ -166,12 +149,9 @@ export class ExpensesPage {
         let yearDifference = d.getFullYear() - expense.date.getFullYear();
 
         //This month logic
-        if (!((expense.date.getMonth() === d.getMonth() && expense.date.getFullYear()
-          === d.getFullYear())
-          || ((expense.date.getMonth() + 1) % 12 === d.getMonth()
-            && yearDifference < 2)
-          || ((expense.date.getMonth() + 2) % 12 === d.getMonth()
-            && yearDifference < 2))) {
+        if (!this.constants.thisMonth(expense) && 
+        !this.constants.lastMonth(expense) &&
+        !this.constants.lastTwoMonths(expense)) {
           return expense
         }
       });

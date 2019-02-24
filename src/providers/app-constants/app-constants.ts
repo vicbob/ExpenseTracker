@@ -56,7 +56,7 @@ export class PasswordValidator {
       console.log("Inside allow")
       return null;
     }
-    
+
     console.log("Not allowed");
     return {
       areEqual: true
@@ -154,6 +154,33 @@ export class AppConstantsProvider {
       // partition and after partition 
       this.quickSortExpenses(expenses, low, pi - 1);
       this.quickSortExpenses(expenses, pi + 1, high);
+    }
+  }
+
+  thisMonth(expense: any) {
+    let d = new Date();
+    if (expense.date.getMonth() === d.getMonth() && expense.date.getFullYear()
+      === d.getFullYear()) {
+      return expense
+    }
+  }
+
+  lastMonth(expense: any) {
+    let d: any = new Date();
+    let yearDifference = d.getFullYear() - expense.date.getFullYear();
+
+    if ((expense.date.getMonth() + 1) % 12 === d.getMonth()
+      && yearDifference < 2 && (d - expense.date) < 9989118784) {
+      return expense
+    }
+  }
+  lastTwoMonths(expense: any) {
+    let d: any = new Date();
+    let yearDifference = d.getFullYear() - expense.date.getFullYear();
+
+    if ((expense.date.getMonth() + 2) % 12 === d.getMonth()
+      && yearDifference < 2 && (d - expense.date) < 9989118784) {
+      return expense
     }
   }
 
