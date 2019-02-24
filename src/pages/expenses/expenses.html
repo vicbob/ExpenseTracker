@@ -15,13 +15,17 @@
 
 <ion-content padding>
   <div *ngIf="filteredExpense.length">
+    <p class="btn-top">
+      <button ion-button (click)="export()">
+        Export
+      </button>
+    </p>
     <div *ngFor="let key of groupKeys">
-      <ion-list class ="user-list nav">
+      <ion-list class="user-list nav">
         <ion-list-header>
           {{key}}
         </ion-list-header>
-        <ion-item *ngFor="let expense of arrangedFilteredExpense.get(key)"
-        (click)="options(expense)">
+        <ion-item *ngFor="let expense of arrangedFilteredExpense.get(key)" (click)="options(expense)">
           <ion-avatar item-start>
             <ion-icon name="pricetag"></ion-icon>
           </ion-avatar>

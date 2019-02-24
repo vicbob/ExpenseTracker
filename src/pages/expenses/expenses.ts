@@ -5,6 +5,7 @@ import * as moment from "moment"
 import { TitleCasePipe } from '@angular/common';
 import { UserActionsProvider } from '../../providers/user-actions/user-actions';
 import { AppConstantsProvider } from '../../providers/app-constants/app-constants';
+import { ExportsProvider } from '../../providers/exports/exports';
 
 /**
  * Generated class for the ExpensesPage page.
@@ -21,7 +22,7 @@ import { AppConstantsProvider } from '../../providers/app-constants/app-constant
 export class ExpensesPage {
   title: string;
   expenses: any[]
-  filteredExpense: any = [];
+  filteredExpense: any[] = [];
   dayGroups = new Set();
   groupKeys: string[] = [];
   arrangedFilteredExpense = new Map();
@@ -34,7 +35,8 @@ export class ExpensesPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private storage: Storage, private loadingCtrl: LoadingController,
     private actionSheetCtrl: ActionSheetController, private alertCtrl: AlertController,
-    private userActions: UserActionsProvider, private constants: AppConstantsProvider) {
+    private userActions: UserActionsProvider, private constants: AppConstantsProvider,
+    private exportsProv:ExportsProvider) {
   }
 
 
@@ -61,7 +63,7 @@ export class ExpensesPage {
   }
 
 
-// Prepares the data for display in the form of a dictionary
+  // Prepares the data for display in the form of a dictionary
   classify() {
     this.dayGroups.forEach(element => {
       let d = new Date(element);
@@ -118,6 +120,7 @@ export class ExpensesPage {
       await this.constants.presentAlert("Error", error.message);
     }
   }
+
 
   expenseFilter(num: number) {
     switch (num) {
@@ -188,12 +191,22 @@ export class ExpensesPage {
   }
 
 
+  export() {
+      let expenses = this.filteredExpense.slice()
+      expenses.reverse()
+      expenses.forEach(expense=>{
+        expense.date = moment(expense.date).format("YYYY-MM-DD")
+      })
+      this.exportsProv.exportXlsx(expenses)
+  }
+
   getClassifications() {
     this.filteredExpense.forEach(expense => {
       this.dayGroups.add(expense.date.toISOString());
     });
     console.log("Day groups is ", this.dayGroups)
   }
+
 
   options(expense: any) {
     console.log("I was clicked on ", expense);
@@ -205,6 +218,7 @@ export class ExpensesPage {
     }
     this.presentActionSheet(expense, cssClass);
   }
+
 
   presentActionSheet(expense: any, cssClass: string) {
     const actionSheet = this.actionSheetCtrl.create({
