@@ -22,6 +22,7 @@ import { ExpenseStatisticsPage } from '../pages/expense-statistics/expense-stati
 import { ReportGeneratorPage } from '../pages/report-generator/report-generator';
 import { StatisticsProvider } from '../providers/statistics/statistics';
 import { ExportsProvider } from '../providers/exports/exports';
+import {File} from '@ionic-native/file/ngx'
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import { ExportsProvider } from '../providers/exports/exports';
     IonicModule.forRoot(MyApp),
     HttpClientModule,
     IonicStorageModule.forRoot(),
-    LongPressModule
+    LongPressModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -62,7 +63,8 @@ import { ExportsProvider } from '../providers/exports/exports';
     AppConstantsProvider,
     UserActionsProvider,
     StatisticsProvider,
-    ExportsProvider
+    ExportsProvider,
+    File
   ]
 })
 export class AppModule {}

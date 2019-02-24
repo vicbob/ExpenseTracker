@@ -84,4 +84,5 @@
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <plugin name="cordova-sqlite-storage" spec="2.5.1" />
     <plugin name="org.apache.cordova.plugin.cache" spec="https://github.com/tiltshiftfocus/cordova-plugin-cache.git" />
+    <plugin name="cordova-plugin-file" spec="6.0.1" />
 </widget>
