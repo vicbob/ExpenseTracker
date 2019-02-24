@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { File } from '@ionic-native/file/ngx';
 import * as xlsx from 'xlsx';
-import { from } from 'rxjs/observable/from';
 import { Platform } from 'ionic-angular';
 
 /*
