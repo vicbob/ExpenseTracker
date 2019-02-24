@@ -23,6 +23,7 @@ import { ReportGeneratorPage } from '../pages/report-generator/report-generator'
 import { StatisticsProvider } from '../providers/statistics/statistics';
 import { ExportsProvider } from '../providers/exports/exports';
 import {File} from '@ionic-native/file/ngx'
+import {FileOpener} from '@ionic-native/file-opener/ngx'
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import {File} from '@ionic-native/file/ngx'
     UserActionsProvider,
     StatisticsProvider,
     ExportsProvider,
-    File
+    File,
+    FileOpener
   ]
 })
 export class AppModule {}
