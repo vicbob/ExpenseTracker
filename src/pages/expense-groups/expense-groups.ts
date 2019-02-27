@@ -52,8 +52,8 @@ export class ExpenseGroupsPage {
     }
   }
 
-  openPage(num: number, title: string) {
-    this.navCtrl.push(ExpensesPage, { 'case': num, 'title': title });
+  openPage(num: number, title: string,data:any={}) {
+    this.navCtrl.push(ExpensesPage, { 'case': num, 'title': title, data:data });
   }
 
   presentAddExpensePrompt() {
@@ -126,5 +126,53 @@ export class ExpenseGroupsPage {
     prompt.present();
   }
 
+  async presentRangePrompt(char: string) {
+    let alert = this.alertCtrl.create({
+      title: "Range",
+      message: 'Enter your range!',
+      inputs: [
+        {
+          name: "start",
+          type: 'date',
+          max: new Date().toISOString().slice(0, 10)
+        },
+        {
+          name: "end",
+          type: 'date',
+          max: new Date().toISOString().slice(0, 10)
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Confirm',
+          handler: data => {
+            if (data.end != null && data.start != null) {
+              let { start, end } = data
+              start = new Date(start)
+              end = new Date(end)
+
+              if (start > end) {
+                this.constants.presentAlert("Error", "Incorrect range")
+                return false;
+              }
+              this.openPage(6,"Expense",data)
+            }
+            else {
+              this.constants.presentAlert("Error", "Fill in the details")
+              return false;
+            }
+          }
+        }
+      ]
+    })
+
+    alert.present()
+  }
 }
+
+
 

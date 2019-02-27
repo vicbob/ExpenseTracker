@@ -14,6 +14,13 @@
 
 
 <ion-content padding>
+
+  <ion-card (click)="openPage(5,'All Expenses')">
+    <ion-card-content>
+      All Expenses
+    </ion-card-content>
+  </ion-card>
+
   <ion-card (click)="openPage(0,'This Month')">
     <ion-card-content>
       This Month
@@ -38,8 +45,16 @@
     </ion-card-content>
   </ion-card>
 
+  <ion-card (click)="presentRangePrompt()">
+    <ion-card-content>
+      Select range
+    </ion-card-content>
+  </ion-card>
+
   <ion-fab right bottom>
-    <button (click)="presentAddExpensePrompt()" ion-fab color="light"><ion-icon name="add"></ion-icon></button>
+    <button (click)="presentAddExpensePrompt()" ion-fab color="light">
+      <ion-icon name="add"></ion-icon>
+    </button>
   </ion-fab>
 
 </ion-content>

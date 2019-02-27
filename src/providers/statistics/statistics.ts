@@ -68,6 +68,9 @@ export class StatisticsProvider {
 
 
   async calculateHsdandLsd(expenses: any[]) {
+    expenses.forEach(expense=>{
+      expense.date = new Date(expense.date)
+    })
     let days = await this.dayClassify(expenses)
 
     let sumOfDayPrices: number[] = []
@@ -110,6 +113,7 @@ export class StatisticsProvider {
     return categories;
   }
 
+  //returns all the unique dates in the expenses array
   async dayClassify(expenses: any[]) {
     let d = [];
 

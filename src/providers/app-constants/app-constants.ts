@@ -38,6 +38,7 @@ export class UsernameOrEmailValidator {
   }
 }
 
+
 export class PasswordValidator {
   // Inspired on: http://plnkr.co/edit/Zcbg2T3tOxYmhxs7vaAm?p=preview
   static areEqual(formGroup: FormGroup) {
@@ -91,6 +92,7 @@ export class AppConstantsProvider {
     return userDetails;
   }
 
+
   presentAlert(title: string, subTitle: string) {
     const alert = this.alertCtrl.create({
       title: title,
@@ -100,6 +102,7 @@ export class AppConstantsProvider {
     alert.present();
   }
 
+  
   presentToast(message: string, callback) {
     let toast = this.toastCtrl.create({
       message: message,
@@ -165,6 +168,7 @@ export class AppConstantsProvider {
     }
   }
 
+
   lastMonth(expense: any) {
     let d: any = new Date();
     let yearDifference = d.getFullYear() - expense.date.getFullYear();
@@ -174,6 +178,8 @@ export class AppConstantsProvider {
       return expense
     }
   }
+
+
   lastTwoMonths(expense: any) {
     let d: any = new Date();
     let yearDifference = d.getFullYear() - expense.date.getFullYear();
@@ -182,6 +188,20 @@ export class AppConstantsProvider {
       && yearDifference < 2 && (d - expense.date) < 9989118784) {
       return expense
     }
+  }
+
+  
+  filterExpenseByDateRange(expenses: any[],data:any): any {
+    return expenses.filter(expense=>{
+      let {start,end} = data
+      start = new Date(start)
+      end = new Date(end)
+      
+      if(expense.date>=start && expense.date<=end){
+        return expense
+      }
+    })
+    
   }
 
 }

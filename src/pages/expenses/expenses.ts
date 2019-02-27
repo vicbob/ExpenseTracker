@@ -36,7 +36,7 @@ export class ExpensesPage {
     private storage: Storage, private loadingCtrl: LoadingController,
     private actionSheetCtrl: ActionSheetController, private alertCtrl: AlertController,
     private userActions: UserActionsProvider, private constants: AppConstantsProvider,
-    private exportsProv:ExportsProvider) {
+    private exportsProv: ExportsProvider) {
   }
 
 
@@ -47,9 +47,9 @@ export class ExpensesPage {
     this.title = this.navParams.get('title');
     let data = await this.storage.get('user_details');
     this.expenses = data.expenses;
-    this.expenseFilter(this.navParams.get('case'));
-    this.getClassifications();
-    this.classify();
+    await this.expenseFilter(this.navParams.get('case'));
+    await this.getClassifications();
+    await this.classify();
     this.loader.dismiss();
   }
 
@@ -84,6 +84,7 @@ export class ExpensesPage {
     console.log(this.arrangedFilteredExpense.keys.length);
   }
 
+
   async deleteExpense(expense: any) {
     let newLoader = this.loadingCtrl.create({
       content: "Please wait...."
@@ -101,6 +102,7 @@ export class ExpensesPage {
       this.constants.presentAlert("Error", error.message);
     }
   }
+
 
   async editExpense(expense: any, price: number, category: string) {
     let newLoader = this.loadingCtrl.create({
@@ -122,7 +124,7 @@ export class ExpensesPage {
   }
 
 
-  expenseFilter(num: number) {
+   async expenseFilter(num: number) {
     switch (num) {
       case 0: this.filteredExpense = this.expenses.filter(expense => {
         return this.constants.thisMonth(expense)
@@ -130,11 +132,13 @@ export class ExpensesPage {
         console.log(this.filteredExpense)
         break;
 
+
       case 1: this.filteredExpense = this.expenses.filter(expense => {
         return this.constants.lastMonth(expense)
       });
         console.log(this.filteredExpense)
         break;
+
 
       case 2:
         this.filteredExpense = this.expenses.filter(expense => {
@@ -143,25 +147,40 @@ export class ExpensesPage {
         console.log(this.filteredExpense)
         break;
 
+
       case 3: this.filteredExpense = this.expenses.filter(expense => {
         let d = new Date();
         let monthDifference = d.getMonth() - expense.date.getMonth()
         let yearDifference = d.getFullYear() - expense.date.getFullYear();
 
         //This month logic
-        if (!this.constants.thisMonth(expense) && 
-        !this.constants.lastMonth(expense) &&
-        !this.constants.lastTwoMonths(expense)) {
+        if (!this.constants.thisMonth(expense) &&
+          !this.constants.lastMonth(expense) &&
+          !this.constants.lastTwoMonths(expense)) {
           return expense
         }
       });
         console.log(this.filteredExpense)
         break;
 
+
       case 4: this.filteredExpense = this.expenses.filter(
         expense => expense.category === this.navParams.get('title')
       );
         console.log("Category is ", this.navParams.get('title'));
+        break;
+
+
+      case 5: this.filteredExpense = this.expenses
+        break;
+
+      case 6: let data = this.navParams.get('data')
+      this.filteredExpense = await this.constants.filterExpenseByDateRange(
+        this.expenses,data)
+        console.log(this.filteredExpense)
+        let start = (new Date(data.start)).toDateString().slice(4)
+        let end = (new Date(data.end)).toDateString().slice(4)
+        this.title = start + " to "+ end
         break;
 
 
@@ -172,12 +191,12 @@ export class ExpensesPage {
 
 
   export() {
-      let expenses = this.filteredExpense.slice()
-      expenses.reverse()
-      expenses.forEach(expense=>{
-        expense.date = moment(expense.date).format("YYYY-MM-DD")
-      })
-      this.exportsProv.exportXlsx(expenses)
+    let expenses = this.filteredExpense.slice()
+    expenses.reverse()
+    expenses.forEach(expense => {
+      expense.date = moment(expense.date).format("YYYY-MM-DD")
+    })
+    this.exportsProv.exportXlsx(expenses)
   }
 
   getClassifications() {
